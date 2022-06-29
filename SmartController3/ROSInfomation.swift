@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
+    @ObservedObject var GCC : GameControllerClass
     @State var deviceName = ""
     @State var ROSConnectionTimer : Timer!
     var body: some View {
@@ -17,7 +18,7 @@ struct ROSInfomation: View {
                 .foregroundColor(.gray)
                 .opacity(0.1)
             
-            VStack {
+            VStack{
                 Spacer()
                 
                 HStack {
@@ -32,25 +33,23 @@ struct ROSInfomation: View {
                 
                 Spacer()
                 
-               
-                
                 if ROSConnectHandler.NetworkConnectionTypeErrorFlag{
                     HStack{
                         Image(systemName: "xmark.circle")
                             .foregroundColor(.red)
-                        Text("Netwok connection type error")
+                        Text("Network connection type error")
                     }
                 }else{
-                    if ROSConnectHandler.SearchingLANProgress < 254{
+                    if ROSConnectHandler.SearchingLANProgress < 254 {
                         ProgressView()
                     }else{
                         if ROSConnectHandler.CanSeeNode {
                             HStack{
                                 Image(systemName: "checkmark.circle")
                                     .foregroundColor(.green)
-                                Text("Scan Complete")
+                                Text("Scan complete")
                                     .onAppear(){
-                                        ROSConnectionTimer?.cancel()
+                                        GCC.NodeIP = ROSConnectHandler.NodeIP
                                     }
                             }
                         }else{
@@ -58,11 +57,6 @@ struct ROSInfomation: View {
                                 Image(systemName: "xmark.circle")
                                     .foregroundColor(.red)
                                 Text("Node not found")
-                                    .onAppear(){
-                                        ROSConnectionTimer = Timer.scheduledTimer(timeInterval: 5,repeats: true){_ in
-                                            ROSConnectHandler.SearchROSNode()
-                                        }
-                                    }
                             }
                         }
                     }
