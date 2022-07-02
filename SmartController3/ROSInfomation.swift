@@ -33,34 +33,52 @@ struct ROSInfomation: View {
                 
                 Spacer()
                 
-                if ROSConnectHandler.NetworkConnectionTypeErrorFlag{
+                if ROSConnectHandler.Log4RCError == "" {
+                    HStack{
+                        Image(systemName: "checkmark.circle")
+                            .foregroundColor(.green)
+                        Text("Scan complete")
+                            .onAppear(){
+                                GCC.NodeIP_host = ROSConnectHandler.NodeIP_host
+                            }
+                    }
+                    
+                }else{
                     HStack{
                         Image(systemName: "xmark.circle")
                             .foregroundColor(.red)
-                        Text("Network connection type error")
-                    }
-                }else{
-                    if ROSConnectHandler.SearchingLANProgress < 254 {
-                        ProgressView()
-                    }else{
-                        if ROSConnectHandler.CanSeeNode {
-                            HStack{
-                                Image(systemName: "checkmark.circle")
-                                    .foregroundColor(.green)
-                                Text("Scan complete")
-                                    .onAppear(){
-                                        GCC.NodeIP = ROSConnectHandler.NodeIP
-                                    }
-                            }
-                        }else{
-                            HStack{
-                                Image(systemName: "xmark.circle")
-                                    .foregroundColor(.red)
-                                Text("Node not found")
-                            }
-                        }
+                        Text(ROSConnectHandler.Log4RCError)
                     }
                 }
+                
+//                if ROSConnectHandler.NetworkConnectionTypeErrorFlag{
+//                    HStack{
+//                        Image(systemName: "xmark.circle")
+//                            .foregroundColor(.red)
+//                        Text("Network connection type error")
+//                    }
+//                }else{
+//                    if ROSConnectHandler.SearchingLANProgress < 253 {
+//                        ProgressView()
+//                    }else{
+//                        if ROSConnectHandler.CanSeeNode {
+//                            HStack{
+//                                Image(systemName: "checkmark.circle")
+//                                    .foregroundColor(.green)
+//                                Text("Scan complete")
+//                                    .onAppear(){
+//                                        GCC.NodeIP_host = ROSConnectHandler.NodeIP_host
+//                                    }
+//                            }
+//                        }else{
+//                            HStack{
+//                                Image(systemName: "xmark.circle")
+//                                    .foregroundColor(.red)
+//                                Text("Node not found")
+//                            }
+//                        }
+//                    }
+//                }
                 
                 Spacer()
             }
