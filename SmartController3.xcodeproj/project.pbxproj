@@ -16,6 +16,7 @@
 		FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */; };
 		FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */; };
 		FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */; };
+		FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDAACEA286FE76F004893BD /* NetworkHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSInfomation.swift; sourceTree = "<group>"; };
 		FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfomationWidget.swift; sourceTree = "<group>"; };
 		FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROS_Connect.swift; sourceTree = "<group>"; };
+		FBDAACEA286FE76F004893BD /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
 				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
 				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
+				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
 				FB8D25AB285D94BD000F0F35 /* Assets.xcassets */,
 				FB8D25AD285D94BD000F0F35 /* Preview Content */,
 			);
@@ -159,6 +162,7 @@
 				FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */,
 				FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */,
 				FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */,
+				FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

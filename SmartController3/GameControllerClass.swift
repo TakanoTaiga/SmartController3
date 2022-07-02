@@ -162,7 +162,7 @@ class GameControllerClass : ObservableObject{
     
     //Network Connections
     
-    @Published var NodeIP : String = ""
+    @Published var NodeIP_host : NWEndpoint.Host = NWEndpoint.Host("")
     private let port : String = "64201"
     
     private var Speaker : NWConnection?
@@ -170,10 +170,10 @@ class GameControllerClass : ObservableObject{
     
     private func send(item : String){
         let payload = item.data(using: .utf8)!
-        if(self.NodeIP != "" && self.port != ""){
+        if(self.NodeIP_host != "" && self.port != ""){
             var connectionCloseFlag = false
             
-            self.Speaker = NWConnection(host: NWEndpoint.Host(self.NodeIP), port: .init(integerLiteral: UInt16(self.port)! ), using: .udp)
+            self.Speaker = NWConnection(host: self.NodeIP_host, port: .init(integerLiteral: UInt16(self.port)! ), using: .udp)
             self.Speaker!.start(queue: udpSendQueue)
             
             let completion = NWConnection.SendCompletion.contentProcessed{(error : NWError?) in
