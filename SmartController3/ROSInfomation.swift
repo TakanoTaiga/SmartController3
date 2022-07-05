@@ -21,9 +21,9 @@ struct ROSInfomation: View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(ROSConnectHandler.nodeName)
+                        Text(ROSConnectHandler.log4ROSC.nodeName)
                             .font(.title)
-                        Text(ROSConnectHandler.deiveName)
+                        Text(ROSConnectHandler.log4ROSC.deviceName)
                             .opacity(0.5)
                     }
                     Spacer()
@@ -31,20 +31,20 @@ struct ROSInfomation: View {
                 
                 Spacer()
                 
-                if ROSConnectHandler.log4RCError == "" {
+                if ROSConnectHandler.log4ROSC.log4NWError == "" {
                     HStack{
                         Image(systemName: "checkmark.circle")
                             .foregroundColor(.green)
                         Text("Scan complete")
                             .onAppear(){
-                                GCC.NodeIP_host = ROSConnectHandler.nodeIPHost
+                                GCC.NodeIP_host = ROSConnectHandler.log4ROSC.nodeIP
                             }
                     }
                 }else{
                     HStack{
                         Image(systemName: "xmark.circle")
                             .foregroundColor(.red)
-                        Text(ROSConnectHandler.log4RCError)
+                        Text(ROSConnectHandler.log4ROSC.log4NWError)
                     }
                 }
                 
