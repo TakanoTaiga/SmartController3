@@ -5,63 +5,49 @@
 //  Created by 高野大河 on 2021/08/14.
 //
 
-//import SwiftUI
 import Network
 import SystemConfiguration
 import CoreTelephony
-import Foundation
-import SwiftUI
 
+struct pramROSConnect{
+    var nodeIP : NWEndpoint.Host
+    var deviceName : String
+    var nodeName : String
+    var nodeLife : Bool
+    var log4NWError : String
+}
 
 class ROSConnect : ObservableObject{
-    @Published var NodeIP_host : NWEndpoint.Host = NWEndpoint.Host("")
-    @Published var DeiveName : String = ""
-    @Published var NodeName : String = ""
+    @Published var log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "")
     
-    @Published var Log4RCError : String = ""
+    private var speaker : NWConnection? //Handler
+    private var listener = try! NWListener(using: .udp, on: 64201) //Handler
     
-    private var Log4RCInputStatus = ["NodeIP": false,"DeiveName": false,"NodeName": false,"NodeLife":false]
-    
-    private var Speaker : NWConnection? //Handler
-    private var Listener = try! NWListener(using: .udp, on: 64201) //Handler
-    
-    private let udpBackGroundQueue = DispatchQueue(label: "udpBackGroundQueue" , qos: .background , attributes: .concurrent)
-    
+    private let udpBackgroundQueue = DispatchQueue(label: "udpBackgroundQueue" , qos: .background , attributes: .concurrent)
     private let udpQueue = DispatchQueue(label: "UDPQueue" , qos: .utility , attributes: .concurrent)
     
     
-    private var NodeCheckTimer : Timer!
-    private var GetNetInfoHndlr = GetNetworkInfomationHandler()
+    private var nodeCheckTimer : Timer!
+    private var getNetInfoHndlr = GetNetworkInfomationHandler()
     
-    func send(item : String , IP_C : NWEndpoint.Host , PORT_C : String){
+    func send(item : String , hostIP : NWEndpoint.Host , hostPort : NWEndpoint.Port){
         let payload = item.data(using: .utf8)!
-        if(IP_C != "ERROR" && PORT_C != ""){
-            var connectionCloseFlag = false
-            
-            self.Speaker = NWConnection(host: IP_C, port: .init(integerLiteral: UInt16(PORT_C)! ), using: .udp)
-            self.Speaker!.start(queue: self.udpQueue)
-            
-            self.Speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-                if (NWError == nil) {
-                    print("Data was sent to UDP")
-                    connectionCloseFlag = true
-                } else {
-                    
-                    print("ERROR! Error when data (Type: Data) sending. NWError: \n \(NWError!)")
-                }
-            })))
-            
-            while true{
-                if connectionCloseFlag{
-                    //self.Speaker?.restart()
-                    break
-                }
+        var connectionCloseFlag = false
+        
+        self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+            if (NWError == nil) {
+                print("ROSC:Send:Data was sent to UDP")
+                connectionCloseFlag = true
+            } else {
+                print("ROSC:Send:NWError:\(NWError!)")
             }
-        }
+        })))
+        
+        while !connectionCloseFlag{()}
     }
     
     
-    private var SROSNConnection : [NWConnection?]
+    private var SROSNConnections : [NWConnection?]
     private var connectionBusyFlag = false
     
     private func SearchROSNode(){
@@ -70,136 +56,106 @@ class ROSConnect : ObservableObject{
         let queue = DispatchQueue.global(qos: .background)
         queue.async {
             DispatchQueue.main.async{self.connectionBusyFlag = true}
-            for i in 1 ..< 250{
+            
+            for SROSNConnection in self.SROSNConnections{
                 var connectionCloseFlag = false
                 
-                self.SROSNConnection[i]!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+                SROSNConnection!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
                     if (NWError == nil) {
-                        NSLog("Data was sent to UDP")
+                        NSLog("ROSC:SROSN:Data was sent to UDP")
                         connectionCloseFlag = true
                     } else {
-                        
-                        NSLog("ERROR! Error when data (Type: Data) sending. NWError:\(NWError!) , IP:\(i)")
+                        NSLog("ROSC:SROSN:NWError:\(NWError!)")
                         return;
                     }
                 })))
                 
-                while true{
-                    if connectionCloseFlag{
-                        //self.SROSNConnection[i]?.restart()
-                        break
-                    }
-                }
+                while !connectionCloseFlag{()}
             }
             DispatchQueue.main.async{self.connectionBusyFlag = false}
         }
     }
     
     private func NodeCheckHandler(){
-        if Log4RCInputStatus["NodeIP"]!{
-            //Check Node life handler
-            self.Log4RCInputStatus["NodeLife"] = false
-            self.send(item: "PING" , IP_C: self.NodeIP_host , PORT_C: "64201")
+        if self.log4ROSC.nodeIP != ""{
+            //Check Node life
+            self.log4ROSC.nodeLife = false
+            self.send(item: "PING" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-                if self.Log4RCInputStatus["NodeLife"]!{
+                if self.log4ROSC.nodeLife{
                     //alive ros node
                     //Check Node infomation packet
-                    if !self.Log4RCInputStatus["DeiveName"]! || !self.Log4RCInputStatus["NodeName"]!{
-                        self.send(item: "WHOAREYOU" , IP_C: self.NodeIP_host , PORT_C: "64201")
-                        self.Log4RCError = "Node infomation is breaked"
+                    if self.log4ROSC.deviceName == "" || self.log4ROSC.nodeName == ""{
+                        self.send(item: "WHOAREYOU" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
+                        self.log4ROSC.log4NWError = "Node infomation is breaked"
                     }else{
                         //full check complete
-                        self.Log4RCError = ""
+                        self.log4ROSC.log4NWError = ""
                     }
                 }else{
                     //lost ros node
-                    self.Log4RCInputStatus = ["NodeIP": false,"DeiveName": false,"NodeName": false,"NodeLife":false]
-                    self.NodeIP_host  = ""
-                    self.DeiveName = ""
-                    self.NodeName  = ""
-                    self.Log4RCError = "Lost Node"
+                    self.log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Lost Node")
                     self.SearchROSNode()
                 }
-            }
+                }
         }else{
             //lost ros node
-            self.Log4RCInputStatus = ["NodeIP": false,"DeiveName": false,"NodeName": false,"NodeLife":false]
-            self.NodeIP_host  = ""
-            self.DeiveName = ""
-            self.NodeName  = ""
-            self.Log4RCError = "Lost Node"
+            self.log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Lost Node")
             self.SearchROSNode()
         }
-        
-        
     }
-    
-    private func resetNodeInfomation(){
-        self.NodeIP_host  = NWEndpoint.Host("")
-        self.DeiveName = ""
-        self.NodeName  = ""
-        //self.CheckItems = 0
-    }
-    
-    
     
     init(){
-        let NetworkAddress = GetNetInfoHndlr.getNetworkAddress()
-        
-        self.SROSNConnection = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
-        self.SROSNConnection[0]!.start(queue: self.udpBackGroundQueue)
+        let NetworkAddress = getNetInfoHndlr.getNetworkAddress()
+        NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
+        self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
+        self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
         for i in 2 ..< 255{
-            self.SROSNConnection += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
-            self.SROSNConnection[i - 1]!.start(queue: self.udpBackGroundQueue)
+            self.SROSNConnections += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
+            self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
         }
         
-        Listener.newConnectionHandler = {(newConnection) in
+        listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.udpQueue)
             newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
                 if let data = data{
                     
                     let rcvDataString = String(data: data, encoding: .utf8)!
-                    NSLog("RCV:" + rcvDataString)
-                    
+                    NSLog("ROSC:init:listener:rcvDataString:" + rcvDataString)
                     
                     if rcvDataString.contains("MYNODEIP") {
                         //node ip
                         DispatchQueue.main.async {
-                            self.NodeIP_host = NWEndpoint.Host(String(rcvDataString.dropFirst("MYNODEIP".count)))
-                            self.Log4RCInputStatus["NodeIP"] = true
-                            self.Log4RCInputStatus["NodeLife"] = true
-                            self.Speaker = NWConnection(host: self.NodeIP_host, port: 64201, using: .udp)
-                            self.Speaker!.start(queue: self.udpQueue)
-                            self.send(item: "WHOAREYOU" , IP_C: self.NodeIP_host , PORT_C: "64201")
+                            self.log4ROSC.nodeIP = NWEndpoint.Host(String(rcvDataString.dropFirst("MYNODEIP".count)))
+                            self.speaker = NWConnection(host: self.log4ROSC.nodeIP, port: 64201, using: .udp)
+                            self.speaker!.start(queue: self.udpQueue)
+                            self.send(item: "WHOAREYOU" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
                         }
                     }
                     
                     if rcvDataString.contains("MYNAMEIS"){
                         // Host name
                         DispatchQueue.main.async {
-                            self.DeiveName = String(rcvDataString.dropFirst("MYNAMEIS".count))
-                            self.Log4RCInputStatus["DeiveName"] = true
-                            self.Log4RCInputStatus["NodeLife"] = true
-                            
-                            self.send(item: "WHATISYORNODE" , IP_C: self.NodeIP_host , PORT_C: "64201")
+                            self.log4ROSC.deviceName = String(rcvDataString.dropFirst("MYNAMEIS".count))
+                            self.log4ROSC.nodeLife = true
+                            self.send(item: "WHATISYORNODE" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
                         }
                     }
                     
                     if rcvDataString.contains("MYNODEIS"){
                         // Node name
                         DispatchQueue.main.async {
-                            self.NodeName = String(rcvDataString.dropFirst("MYNODEIS".count))
-                            self.Log4RCInputStatus["NodeName"] = true
-                            self.Log4RCInputStatus["NodeLife"] = true
+                            self.log4ROSC.nodeName = String(rcvDataString.dropFirst("MYNODEIS".count))
+                            self.log4ROSC.nodeLife = true
                         }
                     }
                     
                     if rcvDataString.contains("CHECK"){
                         //PING ans
                         DispatchQueue.main.async {
-                            self.Log4RCInputStatus["NodeLife"] = true
-                            self.Log4RCError = ""
+                            self.log4ROSC.nodeLife = true
+                            self.log4ROSC.log4NWError = ""
                         }
                     }
                     
@@ -209,10 +165,10 @@ class ROSConnect : ObservableObject{
                 }
             })
         }
-        Listener.start(queue: self.udpQueue)
+        listener.start(queue: self.udpQueue)
         
-        self.NodeCheckTimer?.invalidate()
-        NodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
+        self.nodeCheckTimer?.invalidate()
+        nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
             self.NodeCheckHandler()
         }
     }

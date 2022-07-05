@@ -10,8 +10,6 @@ import SwiftUI
 struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
     @ObservedObject var GCC : GameControllerClass
-    @State var deviceName = ""
-    @State var ROSConnectionTimer : Timer!
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
@@ -23,9 +21,9 @@ struct ROSInfomation: View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(ROSConnectHandler.NodeName)
+                        Text(ROSConnectHandler.log4ROSC.nodeName)
                             .font(.title)
-                        Text(ROSConnectHandler.DeiveName)
+                        Text(ROSConnectHandler.log4ROSC.deviceName)
                             .opacity(0.5)
                     }
                     Spacer()
@@ -33,52 +31,22 @@ struct ROSInfomation: View {
                 
                 Spacer()
                 
-                if ROSConnectHandler.Log4RCError == "" {
+                if ROSConnectHandler.log4ROSC.log4NWError == "" {
                     HStack{
                         Image(systemName: "checkmark.circle")
                             .foregroundColor(.green)
                         Text("Scan complete")
                             .onAppear(){
-                                GCC.NodeIP_host = ROSConnectHandler.NodeIP_host
+                                GCC.NodeIP_host = ROSConnectHandler.log4ROSC.nodeIP
                             }
                     }
-                    
                 }else{
                     HStack{
                         Image(systemName: "xmark.circle")
                             .foregroundColor(.red)
-                        Text(ROSConnectHandler.Log4RCError)
+                        Text(ROSConnectHandler.log4ROSC.log4NWError)
                     }
                 }
-                
-//                if ROSConnectHandler.NetworkConnectionTypeErrorFlag{
-//                    HStack{
-//                        Image(systemName: "xmark.circle")
-//                            .foregroundColor(.red)
-//                        Text("Network connection type error")
-//                    }
-//                }else{
-//                    if ROSConnectHandler.SearchingLANProgress < 253 {
-//                        ProgressView()
-//                    }else{
-//                        if ROSConnectHandler.CanSeeNode {
-//                            HStack{
-//                                Image(systemName: "checkmark.circle")
-//                                    .foregroundColor(.green)
-//                                Text("Scan complete")
-//                                    .onAppear(){
-//                                        GCC.NodeIP_host = ROSConnectHandler.NodeIP_host
-//                                    }
-//                            }
-//                        }else{
-//                            HStack{
-//                                Image(systemName: "xmark.circle")
-//                                    .foregroundColor(.red)
-//                                Text("Node not found")
-//                            }
-//                        }
-//                    }
-//                }
                 
                 Spacer()
             }
