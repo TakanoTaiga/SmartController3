@@ -5,9 +5,7 @@
 //  Created by 高野大河 on 2022/06/18.
 //
 
-import Foundation
 import GameController
-import SwiftUI
 import Network
 
 class GameControllerClass : ObservableObject{
@@ -50,10 +48,12 @@ class GameControllerClass : ObservableObject{
         GCController.startWirelessControllerDiscovery{}
     }
     
-    func didConnectControllerHandler(_ notification: Notification){
+    private func didConnectControllerHandler(_ notification: Notification){
         self.connected = true
         let controller = notification.object as! GCController
-        self.battery = controller.battery!.batteryLevel
+        if let battery = controller.battery{
+            self.battery = battery.batteryLevel
+        }
         self.deviceName = controller.productCategory
         
         controller.extendedGamepad?.leftThumbstick.valueChangedHandler = { (button, xvalue, yvalue) in self.stick(1, xvalue, yvalue) }
@@ -87,13 +87,13 @@ class GameControllerClass : ObservableObject{
         
     }
     
-    func didDisconnectController(_ notification: Notification){
+    private func didDisconnectController(_ notification: Notification){
         self.connected = false
         self.battery = -1
         self.deviceName = "N/A"
     }
     
-    func stick(_ button: Int, _ xvalue: Float, _ yvalue: Float){
+    private func stick(_ button: Int, _ xvalue: Float, _ yvalue: Float){
         if button == 1{
             leftJoystic[0] = xvalue
             leftJoystic[1] = yvalue
@@ -105,20 +105,20 @@ class GameControllerClass : ObservableObject{
         self.sendGameControllerStatus()
     }
     
-    func trigger(_ trigger: Int, _ value: Float){
+    private func trigger(_ trigger: Int, _ value: Float){
         switch trigger{
         case 1:
             leftTrigger = value
         case 2:
             rightTrigger = value
         default:
-            print("ERROR:GameControllerClass-trigger")
+            NSLog("ERROR:GameControllerClass-trigger")
         }
         
         self.sendGameControllerStatus()
     }
     
-    func button(_ button: Int, _ pressed: Bool){
+    private func button(_ button: Int, _ pressed: Bool){
         switch button {
         case 0:
             dpadLeft = pressed
@@ -154,7 +154,7 @@ class GameControllerClass : ObservableObject{
             rightTriggerButton = pressed
             
         default:
-            print("ERROR:GameControllerClass-button")
+            NSLog("ERROR:GameControllerClass-button")
         }
         
         self.sendGameControllerStatus()
@@ -162,64 +162,65 @@ class GameControllerClass : ObservableObject{
     
     //Network Connections
     
-    @Published var NodeIP_host : NWEndpoint.Host = NWEndpoint.Host("")
-    private let port : String = "64201"
+    @Published var nodeIPHost : NWEndpoint.Host = NWEndpoint.Host("")
+    private let nodePortHost : NWEndpoint.Port = 64201
     
-    private var Speaker : NWConnection?
+    private var speaker : NWConnection?
     private let udpSendQueue = DispatchQueue(label: "udpSendQueue" , qos: .utility , attributes: .concurrent)
     
     private func send(item : String){
         let payload = item.data(using: .utf8)!
-        if(self.NodeIP_host != "" && self.port != ""){
+        if(self.nodeIPHost != ""){
             var connectionCloseFlag = false
             
-            self.Speaker = NWConnection(host: self.NodeIP_host, port: .init(integerLiteral: UInt16(self.port)! ), using: .udp)
-            self.Speaker!.start(queue: udpSendQueue)
-            
-            let completion = NWConnection.SendCompletion.contentProcessed{(error : NWError?) in
-                NSLog("GCC:送信完了")
-                connectionCloseFlag = true
-            }
-            self.Speaker!.send(content: payload, completion: completion)
-            
-            while true{
-                if connectionCloseFlag{
-                    self.Speaker?.cancel()
-                    break
+            self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+                if (NWError == nil) {
+                    print("ROSC:Send:Data was sent to UDP")
+                    connectionCloseFlag = true
+                } else {
+                    print("ROSC:Send:NWError:\(NWError!)")
                 }
-            }
+            })))
+            
+            while !connectionCloseFlag{()}
         }
+    }
+    
+    func NWSetup(host: NWEndpoint.Host){
+        self.nodeIPHost = host
+        self.speaker = NWConnection(host: self.nodeIPHost, port: self.nodePortHost, using: .udp)
+        self.speaker!.start(queue: udpSendQueue)
     }
     
     private func sendGameControllerStatus(){
         var sendingItem : String = "GCINFO,"
-        sendingItem += "leftJoystic" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
-        sendingItem += "rightJoystic" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
+        sendingItem += "leftJoystic:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
+        sendingItem += "rightJoystic:" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
         
-        sendingItem += "leftTrigger" + String(self.leftTrigger) + ","
-        sendingItem += "rightTrigger" + String(self.rightTrigger) + ","
+        sendingItem += "leftTrigger:" + String(self.leftTrigger) + ","
+        sendingItem += "rightTrigger:" + String(self.rightTrigger) + ","
         
-        sendingItem += "dpadLeft" + String(self.dpadLeft) + ","
-        sendingItem += "dpadUp" + String(self.dpadUp) + ","
-        sendingItem += "dpadRight" + String(self.dpadRight) + ","
-        sendingItem += "dpadDown" + String(self.dpadDown) + ","
+        sendingItem += "dpadLeft:" + String(self.dpadLeft) + ","
+        sendingItem += "dpadUp:" + String(self.dpadUp) + ","
+        sendingItem += "dpadRight:" + String(self.dpadRight) + ","
+        sendingItem += "dpadDown:" + String(self.dpadDown) + ","
         
-        sendingItem += "buttonX" + String(self.buttonX) + ","
-        sendingItem += "buttonY" + String(self.buttonY) + ","
-        sendingItem += "buttonB" + String(self.buttonB) + ","
-        sendingItem += "buttonA" + String(self.buttonA) + ","
+        sendingItem += "buttonX:" + String(self.buttonX) + ","
+        sendingItem += "buttonY:" + String(self.buttonY) + ","
+        sendingItem += "buttonB:" + String(self.buttonB) + ","
+        sendingItem += "buttonA:" + String(self.buttonA) + ","
         
-        sendingItem += "leftThumbstickButton" + String(self.leftThumbstickButton) + ","
-        sendingItem += "rightThumbstickButton" + String(self.rightThumbstickButton) + ","
+        sendingItem += "leftThumbstickButton:" + String(self.leftThumbstickButton) + ","
+        sendingItem += "rightThumbstickButton:" + String(self.rightThumbstickButton) + ","
         
-        sendingItem += "optionButton" + String(self.optionButton) + ","
-        sendingItem += "menuButton" + String(self.menuButton) + ","
+        sendingItem += "optionButton:" + String(self.optionButton) + ","
+        sendingItem += "menuButton:" + String(self.menuButton) + ","
         
-        sendingItem += "leftShoulderButton" + String(self.leftShoulderButton) + ","
-        sendingItem += "rightShoulderButton" + String(self.rightShoulderButton) + ","
+        sendingItem += "leftShoulderButton:" + String(self.leftShoulderButton) + ","
+        sendingItem += "rightShoulderButton:" + String(self.rightShoulderButton) + ","
         
-        sendingItem += "leftTriggerButton" + String(self.leftTriggerButton) + ","
-        sendingItem += "rightTriggerButton" + String(self.rightTriggerButton) + ",END"
+        sendingItem += "leftTriggerButton:" + String(self.leftTriggerButton) + ","
+        sendingItem += "rightTriggerButton:" + String(self.rightTriggerButton) + ",END"
         
         self.send(item: sendingItem)
     }
