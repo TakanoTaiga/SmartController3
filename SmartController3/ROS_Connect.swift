@@ -107,16 +107,20 @@ class ROSConnect : ObservableObject{
     }
     
     init(){
-        let NetworkAddress = getNetInfoHndlr.getNetworkAddress()
-        NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
-        self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
-        self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
-        for i in 2 ..< 255{
-            self.SROSNConnections += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
-            self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
+        if let NetworkAddress = getNetInfoHndlr.getNetworkAddress(){
+            NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
+            self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
+            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
+            for i in 1 ..< 255{
+                self.SROSNConnections.append(contentsOf: ([NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]))
+                self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
+            }
+        }else{
+            self.SROSNConnections = [NWConnection(host: "127.0.0.0", port: 64201, using: .udp)]
+            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
         }
         
-        listener.newConnectionHandler = {(newConnection) in
+        self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.udpQueue)
             newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
                 if let data = data{
@@ -165,10 +169,10 @@ class ROSConnect : ObservableObject{
                 }
             })
         }
-        listener.start(queue: self.udpQueue)
+        self.listener.start(queue: self.udpQueue)
         
         self.nodeCheckTimer?.invalidate()
-        nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
+        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
             self.NodeCheckHandler()
         }
     }

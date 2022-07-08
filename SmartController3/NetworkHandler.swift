@@ -12,10 +12,6 @@ import Foundation
 
 class GetNetworkInfomationHandler{
     private func getWiFiAddress() -> String? {
-        if self.getConnectionType() != "WIFI" {
-            return "NULL"
-        }
-        
         var address : String?
         
         // Get list of all interfaces on the local machine:
@@ -49,33 +45,10 @@ class GetNetworkInfomationHandler{
         return address
     }
     
-    private func getConnectionType() -> String {
-        guard let reachability = SCNetworkReachabilityCreateWithName(kCFAllocatorDefault, "www.google.com") else {
-            return "WIFI"
-        }
-        
-        var flags = SCNetworkReachabilityFlags()
-        SCNetworkReachabilityGetFlags(reachability, &flags)
-        
-        let isReachable = flags.contains(.reachable)
-        let isWWAN = flags.contains(.isWWAN)
-        
-        if isReachable {
-            if isWWAN {
-                return "Cellular"
-            } else {
-                return "WIFI"
-            }
-        } else {
-            return "NoInternet"
-        }
-    }
-    
-    public func getNetworkAddress() -> String{
-        let IP :String = self.getWiFiAddress()!
-        
-        if IP.contains("NULL"){
-            return "NULL"
+    public func getNetworkAddress() -> String?{
+        guard let IP :String = self.getWiFiAddress() else {
+            NSLog("GNIH:GNA:ConnectionTypeError")
+            return nil
         }
         var counter = 0
         var dotCounter = 0
@@ -90,6 +63,6 @@ class GetNetworkInfomationHandler{
             }
         }
         
-        return "NULL"
+        return nil
     }
 }
