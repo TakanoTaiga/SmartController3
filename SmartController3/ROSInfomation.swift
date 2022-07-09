@@ -37,7 +37,7 @@ struct ROSInfomation: View {
                             .foregroundColor(.green)
                         Text("Scan complete")
                             .onAppear(){
-                                GCC.NodeIP_host = ROSConnectHandler.log4ROSC.nodeIP
+                                GCC.NWSetup(host: ROSConnectHandler.log4ROSC.nodeIP)
                             }
                     }
                 }else{

@@ -18,7 +18,7 @@ struct pramROSConnect{
 }
 
 class ROSConnect : ObservableObject{
-    @Published var log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "")
+    @Published var log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Not connect")
     
     private var speaker : NWConnection? //Handler
     private var listener = try! NWListener(using: .udp, on: 64201) //Handler
@@ -32,52 +32,39 @@ class ROSConnect : ObservableObject{
     
     func send(item : String , hostIP : NWEndpoint.Host , hostPort : NWEndpoint.Port){
         let payload = item.data(using: .utf8)!
-        var connectionCloseFlag = false
+        //var connectionCloseFlag = false
         
         self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
-                print("ROSC:Send:Data was sent to UDP")
-                connectionCloseFlag = true
+                NSLog("ROSC:Send:Data was sent to UDP")
+                //connectionCloseFlag = true
             } else {
-                print("ROSC:Send:NWError:\(NWError!)")
+                NSLog("ROSC:Send:NWError:\(NWError!)")
             }
         })))
-        
-        while !connectionCloseFlag{()}
     }
     
     
     private var SROSNConnections : [NWConnection?]
-    private var connectionBusyFlag = false
     
     private func SearchROSNode(){
-        if self.connectionBusyFlag{return}
-        
         let queue = DispatchQueue.global(qos: .background)
         queue.async {
-            DispatchQueue.main.async{self.connectionBusyFlag = true}
-            
             for SROSNConnection in self.SROSNConnections{
-                var connectionCloseFlag = false
-                
                 SROSNConnection!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
                     if (NWError == nil) {
                         NSLog("ROSC:SROSN:Data was sent to UDP")
-                        connectionCloseFlag = true
                     } else {
                         NSLog("ROSC:SROSN:NWError:\(NWError!)")
-                        return;
                     }
                 })))
-                
-                while !connectionCloseFlag{()}
             }
-            DispatchQueue.main.async{self.connectionBusyFlag = false}
         }
     }
     
     private func NodeCheckHandler(){
-        if self.log4ROSC.nodeIP != ""{
+        NSLog("NodeCheckHandler:\(self.log4ROSC.nodeIP != NWEndpoint.Host(""))")
+        if self.log4ROSC.nodeIP != NWEndpoint.Host(""){
             //Check Node life
             self.log4ROSC.nodeLife = false
             self.send(item: "PING" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
@@ -107,16 +94,20 @@ class ROSConnect : ObservableObject{
     }
     
     init(){
-        let NetworkAddress = getNetInfoHndlr.getNetworkAddress()
-        NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
-        self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
-        self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
-        for i in 2 ..< 255{
-            self.SROSNConnections += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
-            self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
+        if let NetworkAddress = getNetInfoHndlr.getNetworkAddress(){
+            NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
+            self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
+            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
+            for i in 1 ..< 255{
+                self.SROSNConnections += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
+                self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
+            }
+        }else{
+            self.SROSNConnections = [NWConnection(host: "127.0.0.0", port: 64201, using: .udp)]
+            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
         }
         
-        listener.newConnectionHandler = {(newConnection) in
+        self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.udpQueue)
             newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
                 if let data = data{
@@ -131,6 +122,8 @@ class ROSConnect : ObservableObject{
                             self.speaker = NWConnection(host: self.log4ROSC.nodeIP, port: 64201, using: .udp)
                             self.speaker!.start(queue: self.udpQueue)
                             self.send(item: "WHOAREYOU" , hostIP: self.log4ROSC.nodeIP , hostPort: 64201)
+                            self.log4ROSC.nodeLife = true
+                            self.log4ROSC.log4NWError = ""
                         }
                     }
                     
@@ -165,10 +158,10 @@ class ROSConnect : ObservableObject{
                 }
             })
         }
-        listener.start(queue: self.udpQueue)
+        self.listener.start(queue: self.udpQueue)
         
         self.nodeCheckTimer?.invalidate()
-        nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
+        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
             self.NodeCheckHandler()
         }
     }
