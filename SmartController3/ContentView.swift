@@ -43,8 +43,6 @@ struct ContentView: View {
                 ROSInfomation(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
                     .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
             }
-            
-                        
         }
     }
 }

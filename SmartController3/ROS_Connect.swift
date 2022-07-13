@@ -32,34 +32,26 @@ class ROSConnect : ObservableObject{
     
     func send(item : String , hostIP : NWEndpoint.Host , hostPort : NWEndpoint.Port){
         let payload = item.data(using: .utf8)!
-        //var connectionCloseFlag = false
         
         self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
                 NSLog("ROSC:Send:Data was sent to UDP")
-                //connectionCloseFlag = true
             } else {
                 NSLog("ROSC:Send:NWError:\(NWError!)")
             }
         })))
     }
-    
-    
-    private var SROSNConnections : [NWConnection?]
-    
+
     private func SearchROSNode(){
-        let queue = DispatchQueue.global(qos: .background)
-        queue.async {
-            for SROSNConnection in self.SROSNConnections{
-                SROSNConnection!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+        let SROSNConnections = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
+        SROSNConnections.start(queue: self.udpBackgroundQueue)
+            SROSNConnections.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
                     if (NWError == nil) {
                         NSLog("ROSC:SROSN:Data was sent to UDP")
                     } else {
                         NSLog("ROSC:SROSN:NWError:\(NWError!)")
                     }
                 })))
-            }
-        }
     }
     
     private func NodeCheckHandler(){
@@ -94,19 +86,6 @@ class ROSConnect : ObservableObject{
     }
     
     init(){
-        if let NetworkAddress = getNetInfoHndlr.getNetworkAddress(){
-            NSLog("ROSC:init:NWADDR:\(NetworkAddress)")
-            self.SROSNConnections = [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(1)), port: 64201, using: .udp)]
-            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
-            for i in 1 ..< 255{
-                self.SROSNConnections += [NWConnection(host: NWEndpoint.Host(NetworkAddress.dropLast(1) + String(i)), port: 64201, using: .udp)]
-                self.SROSNConnections[i - 1]!.start(queue: self.udpBackgroundQueue)
-            }
-        }else{
-            self.SROSNConnections = [NWConnection(host: "127.0.0.0", port: 64201, using: .udp)]
-            self.SROSNConnections[0]!.start(queue: self.udpBackgroundQueue)
-        }
-        
         self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.udpQueue)
             newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
@@ -160,6 +139,7 @@ class ROSConnect : ObservableObject{
         }
         self.listener.start(queue: self.udpQueue)
         
+        self.NodeCheckHandler()
         self.nodeCheckTimer?.invalidate()
         self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
             self.NodeCheckHandler()
