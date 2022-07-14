@@ -41,6 +41,8 @@ class GameControllerClass : ObservableObject{
     @Published var leftTriggerButton : Bool = false
     @Published var rightTriggerButton : Bool = false
     
+    @Published var debugData : String = ""
+    
     
     init(){
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil, using: didConnectControllerHandler)
@@ -174,6 +176,7 @@ class GameControllerClass : ObservableObject{
                 print("GCC:Send:NWError:\(NWError!)")
             }
         })))
+        self.debugData = item
     }
     
     public func NWSetup(host: NWEndpoint.Host?){

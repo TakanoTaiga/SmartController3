@@ -15,10 +15,8 @@ struct ContentView: View {
         HStack {
             Spacer()
             
-            RoundedRectangle(cornerRadius: 20)
+            DebugTerminal(GCC: controllerClassObject)
                 .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.1, alignment: .center)
-                .foregroundColor(.gray)
-                .opacity(0.1)
             
             Spacer()
             
