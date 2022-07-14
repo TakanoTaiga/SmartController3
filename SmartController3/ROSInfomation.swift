@@ -10,6 +10,7 @@ import SwiftUI
 struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
     @ObservedObject var GCC : GameControllerClass
+    @State var gccTimer : Timer!
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
@@ -38,6 +39,13 @@ struct ROSInfomation: View {
                         Text("Scan complete")
                             .onAppear(){
                                 GCC.NWSetup(host: ROSConnectHandler.log4ROSC.nodeIP)
+                                gccTimer?.invalidate()
+                                gccTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true){ _ in
+                                    GCC.sendGameControllerStatus()
+                                }
+                            }
+                            .onDisappear(){
+                                gccTimer?.invalidate()
                             }
                     }
                 }else{

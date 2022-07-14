@@ -102,7 +102,7 @@ class GameControllerClass : ObservableObject{
             rightJoystic[1] = yvalue
         }
         
-        self.sendGameControllerStatus()
+        //self.sendGameControllerStatus()
     }
     
     private func trigger(_ trigger: Int, _ value: Float){
@@ -115,7 +115,7 @@ class GameControllerClass : ObservableObject{
             NSLog("ERROR:GameControllerClass-trigger")
         }
         
-        self.sendGameControllerStatus()
+        //self.sendGameControllerStatus()
     }
     
     private func button(_ button: Int, _ pressed: Bool){
@@ -162,37 +162,29 @@ class GameControllerClass : ObservableObject{
     
     //Network Connections
     
-    @Published var nodeIPHost : NWEndpoint.Host = NWEndpoint.Host("")
-    private let nodePortHost : NWEndpoint.Port = 64201
-    
     private var speaker : NWConnection?
     private let udpSendQueue = DispatchQueue(label: "udpSendQueue" , qos: .utility , attributes: .concurrent)
     
     private func send(item : String){
         let payload = item.data(using: .utf8)!
-        if(self.nodeIPHost != ""){
-            var connectionCloseFlag = false
-            
-            self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-                if (NWError == nil) {
-                    print("ROSC:Send:Data was sent to UDP")
-                    connectionCloseFlag = true
-                } else {
-                    print("ROSC:Send:NWError:\(NWError!)")
-                }
-            })))
-            
-            while !connectionCloseFlag{()}
+        self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+            if (NWError == nil) {
+                print("GCC:Send:Data was sent to UDP")
+            } else {
+                print("GCC:Send:NWError:\(NWError!)")
+            }
+        })))
+    }
+    
+    public func NWSetup(host: NWEndpoint.Host?){
+        //self.nodeIPHost = host
+        if let host = host {
+            self.speaker = NWConnection(host: host, port: 64201, using: .udp)
+            self.speaker!.start(queue: udpSendQueue)
         }
     }
     
-    func NWSetup(host: NWEndpoint.Host){
-        self.nodeIPHost = host
-        self.speaker = NWConnection(host: self.nodeIPHost, port: self.nodePortHost, using: .udp)
-        self.speaker!.start(queue: udpSendQueue)
-    }
-    
-    private func sendGameControllerStatus(){
+    public func sendGameControllerStatus(){
         var sendingItem : String = "GCINFO,"
         sendingItem += "leftJoystic:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
         sendingItem += "rightJoystic:" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
