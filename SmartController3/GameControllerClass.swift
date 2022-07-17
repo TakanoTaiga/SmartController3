@@ -187,6 +187,14 @@ class GameControllerClass : ObservableObject{
         }
     }
     
+    private func Bool2String(bool : Bool)-> String {
+        if bool{
+            return "1"
+        }else{
+            return "0"
+        }
+    }
+    
     public func sendGameControllerStatus(){
         var sendingItem : String = "GCINFO,"
         sendingItem += "leftJoystic:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
@@ -195,27 +203,27 @@ class GameControllerClass : ObservableObject{
         sendingItem += "leftTrigger:" + String(self.leftTrigger) + ","
         sendingItem += "rightTrigger:" + String(self.rightTrigger) + ","
         
-        sendingItem += "dpadLeft:" + String(self.dpadLeft) + ","
-        sendingItem += "dpadUp:" + String(self.dpadUp) + ","
-        sendingItem += "dpadRight:" + String(self.dpadRight) + ","
-        sendingItem += "dpadDown:" + String(self.dpadDown) + ","
+        sendingItem += "dpadLeft:" + self.Bool2String(bool: self.dpadLeft) + ","
+        sendingItem += "dpadUp:" + self.Bool2String(bool: self.dpadUp) + ","
+        sendingItem += "dpadRight:" + self.Bool2String(bool: self.dpadRight) + ","
+        sendingItem += "dpadDown:" + self.Bool2String(bool: self.dpadDown) + ","
         
-        sendingItem += "buttonX:" + String(self.buttonX) + ","
-        sendingItem += "buttonY:" + String(self.buttonY) + ","
-        sendingItem += "buttonB:" + String(self.buttonB) + ","
-        sendingItem += "buttonA:" + String(self.buttonA) + ","
+        sendingItem += "buttonX:" + self.Bool2String(bool: self.buttonX) + ","
+        sendingItem += "buttonY:" + self.Bool2String(bool: self.buttonY) + ","
+        sendingItem += "buttonB:" + self.Bool2String(bool: self.buttonB) + ","
+        sendingItem += "buttonA:" + self.Bool2String(bool: self.buttonA) + ","
         
-        sendingItem += "leftThumbstickButton:" + String(self.leftThumbstickButton) + ","
-        sendingItem += "rightThumbstickButton:" + String(self.rightThumbstickButton) + ","
+        sendingItem += "leftThumbstickButton:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
+        sendingItem += "rightThumbstickButton:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
         
-        sendingItem += "optionButton:" + String(self.optionButton) + ","
-        sendingItem += "menuButton:" + String(self.menuButton) + ","
+        sendingItem += "optionButton:" + self.Bool2String(bool: self.optionButton) + ","
+        sendingItem += "menuButton:" + self.Bool2String(bool: self.menuButton) + ","
         
-        sendingItem += "leftShoulderButton:" + String(self.leftShoulderButton) + ","
-        sendingItem += "rightShoulderButton:" + String(self.rightShoulderButton) + ","
+        sendingItem += "leftShoulderButton:" + self.Bool2String(bool: self.leftShoulderButton) + ","
+        sendingItem += "rightShoulderButton:" + self.Bool2String(bool: self.rightShoulderButton) + ","
         
-        sendingItem += "leftTriggerButton:" + String(self.leftTriggerButton) + ","
-        sendingItem += "rightTriggerButton:" + String(self.rightTriggerButton) + ",END"
+        sendingItem += "leftTriggerButton:" + self.Bool2String(bool: self.leftTriggerButton) + ","
+        sendingItem += "rightTriggerButton:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
         
         self.send(item: sendingItem)
     }
