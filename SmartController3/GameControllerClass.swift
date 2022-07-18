@@ -103,8 +103,6 @@ class GameControllerClass : ObservableObject{
             rightJoystic[0] = xvalue
             rightJoystic[1] = yvalue
         }
-        
-        //self.sendGameControllerStatus()
     }
     
     private func trigger(_ trigger: Int, _ value: Float){
@@ -116,8 +114,6 @@ class GameControllerClass : ObservableObject{
         default:
             NSLog("ERROR:GameControllerClass-trigger")
         }
-        
-        //self.sendGameControllerStatus()
     }
     
     private func button(_ button: Int, _ pressed: Bool){
@@ -166,8 +162,11 @@ class GameControllerClass : ObservableObject{
     
     private var speaker : NWConnection?
     private let udpSendQueue = DispatchQueue(label: "udpSendQueue" , qos: .utility , attributes: .concurrent)
+    private var readyForNWConnection = false
     
     private func send(item : String){
+        if !readyForNWConnection{return}
+        
         let payload = item.data(using: .utf8)!
         self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
@@ -179,14 +178,6 @@ class GameControllerClass : ObservableObject{
         self.debugData = item
     }
     
-    public func NWSetup(host: NWEndpoint.Host?){
-        //self.nodeIPHost = host
-        if let host = host {
-            self.speaker = NWConnection(host: host, port: 64201, using: .udp)
-            self.speaker!.start(queue: udpSendQueue)
-        }
-    }
-    
     private func Bool2String(bool : Bool)-> String {
         if bool{
             return "1"
@@ -195,35 +186,43 @@ class GameControllerClass : ObservableObject{
         }
     }
     
+    public func NWSetup(host: NWEndpoint.Host?){
+        if let host = host {
+            self.speaker = NWConnection(host: host, port: 64201, using: .udp)
+            self.speaker!.start(queue: udpSendQueue)
+            self.readyForNWConnection = true
+        }
+    }
+    
     public func sendGameControllerStatus(){
         var sendingItem : String = "GCINFO,"
-        sendingItem += "leftJoystic:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
-        sendingItem += "rightJoystic:" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
+        sendingItem += "1:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
+        sendingItem += "2:" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
         
-        sendingItem += "leftTrigger:" + String(self.leftTrigger) + ","
-        sendingItem += "rightTrigger:" + String(self.rightTrigger) + ","
+        sendingItem += "3:" + String(self.leftTrigger) + ","
+        sendingItem += "4:" + String(self.rightTrigger) + ","
         
-        sendingItem += "dpadLeft:" + self.Bool2String(bool: self.dpadLeft) + ","
-        sendingItem += "dpadUp:" + self.Bool2String(bool: self.dpadUp) + ","
-        sendingItem += "dpadRight:" + self.Bool2String(bool: self.dpadRight) + ","
-        sendingItem += "dpadDown:" + self.Bool2String(bool: self.dpadDown) + ","
+        sendingItem += "5:" + self.Bool2String(bool: self.dpadLeft) + ","
+        sendingItem += "6:" + self.Bool2String(bool: self.dpadUp) + ","
+        sendingItem += "7:" + self.Bool2String(bool: self.dpadRight) + ","
+        sendingItem += "8:" + self.Bool2String(bool: self.dpadDown) + ","
         
-        sendingItem += "buttonX:" + self.Bool2String(bool: self.buttonX) + ","
-        sendingItem += "buttonY:" + self.Bool2String(bool: self.buttonY) + ","
-        sendingItem += "buttonB:" + self.Bool2String(bool: self.buttonB) + ","
-        sendingItem += "buttonA:" + self.Bool2String(bool: self.buttonA) + ","
+        sendingItem += "9:" + self.Bool2String(bool: self.buttonX) + ","
+        sendingItem += "A:" + self.Bool2String(bool: self.buttonY) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.buttonB) + ","
+        sendingItem += "C:" + self.Bool2String(bool: self.buttonA) + ","
         
-        sendingItem += "leftThumbstickButton:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
-        sendingItem += "rightThumbstickButton:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
+        sendingItem += "D:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
+        sendingItem += "E:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
         
-        sendingItem += "optionButton:" + self.Bool2String(bool: self.optionButton) + ","
-        sendingItem += "menuButton:" + self.Bool2String(bool: self.menuButton) + ","
+        sendingItem += "F:" + self.Bool2String(bool: self.optionButton) + ","
+        sendingItem += "G:" + self.Bool2String(bool: self.menuButton) + ","
         
-        sendingItem += "leftShoulderButton:" + self.Bool2String(bool: self.leftShoulderButton) + ","
-        sendingItem += "rightShoulderButton:" + self.Bool2String(bool: self.rightShoulderButton) + ","
+        sendingItem += "H:" + self.Bool2String(bool: self.leftShoulderButton) + ","
+        sendingItem += "I:" + self.Bool2String(bool: self.rightShoulderButton) + ","
         
-        sendingItem += "leftTriggerButton:" + self.Bool2String(bool: self.leftTriggerButton) + ","
-        sendingItem += "rightTriggerButton:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
+        sendingItem += "J:" + self.Bool2String(bool: self.leftTriggerButton) + ","
+        sendingItem += "K:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
         
         self.send(item: sendingItem)
     }

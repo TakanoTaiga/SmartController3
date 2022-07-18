@@ -24,7 +24,6 @@ class ROSConnect : ObservableObject{
     private var speakerForROS : NWConnection?
     private var listener = try! NWListener(using: .udp, on: 64201) //Handler
     
-    //private let udpBackgroundQueue = DispatchQueue(label: "udpBackgroundQueue" , qos: .background , attributes: .concurrent)
     private let udpQueue = DispatchQueue(label: "UDPQueue" , qos: .utility , attributes: .concurrent)
     
     
@@ -43,8 +42,6 @@ class ROSConnect : ObservableObject{
     }
     
     private func SearchROSNode(){
-        //let SROSNConnections = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
-        //SROSNConnections.start(queue: self.udpQueue)
         self.speakerForROS!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
                 NSLog("ROSC:SROSN:Data was sent to UDP")
@@ -90,10 +87,8 @@ class ROSConnect : ObservableObject{
     }
     
     init(){
-        //DispatchQueue.main.async {
-            self.speakerForROS = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
-            self.speakerForROS!.start(queue: self.udpQueue)
-        //}
+        self.speakerForROS = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
+        self.speakerForROS!.start(queue: self.udpQueue)
         
         self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.udpQueue)

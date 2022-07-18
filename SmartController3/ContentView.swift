@@ -22,20 +22,15 @@ struct ContentView: View {
             
             VStack {
                 HStack {
+                    Spacer()
                     ControllerInfomationWidget(GameController: controllerClassObject)
                         .frame(width: UIScreen.main.bounds.height / 2.3, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
                         .foregroundColor(.gray)
-                        
                     Spacer()
-                    
                     DeviceInforWidget(GameControllerClass: controllerClassObject)
                         .frame(width: UIScreen.main.bounds.height / 2.3, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
                         .padding(.all , 5)
-                        
-                        
-                    
                     Spacer()
-
                 }
                 
                 ROSInfomation(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
