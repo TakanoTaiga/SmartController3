@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */; };
 		FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A9285D94BC000F0F35 /* ContentView.swift */; };
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
@@ -16,10 +17,12 @@
 		FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */; };
 		FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */; };
 		FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */; };
+		FBA8BC3328A4B9C1006D4150 /* DebugTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */; };
 		FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDAACEA286FE76F004893BD /* NetworkHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartController3App.swift; sourceTree = "<group>"; };
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -30,6 +33,7 @@
 		FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSInfomation.swift; sourceTree = "<group>"; };
 		FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfomationWidget.swift; sourceTree = "<group>"; };
 		FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROS_Connect.swift; sourceTree = "<group>"; };
+		FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugTerminal.swift; sourceTree = "<group>"; };
 		FBDAACEA286FE76F004893BD /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +67,7 @@
 		FB8D25A6285D94BC000F0F35 /* SmartController3 */ = {
 			isa = PBXGroup;
 			children = (
+				FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */,
 				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
 				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
 				FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */,
@@ -72,6 +77,7 @@
 				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
 				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
 				FB8D25AB285D94BD000F0F35 /* Assets.xcassets */,
+				FB787E8A28AE7E1E0058F548 /* icons */,
 				FB8D25AD285D94BD000F0F35 /* Preview Content */,
 			);
 			path = SmartController3;
@@ -143,6 +149,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB787E8B28AE7E1E0058F548 /* icons in Resources */,
 				FB8D25AF285D94BD000F0F35 /* Preview Assets.xcassets in Resources */,
 				FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */,
 			);
@@ -155,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FBA8BC3328A4B9C1006D4150 /* DebugTerminal.swift in Sources */,
 				FB8D25B8285D9D9B000F0F35 /* DeviceInforWidget.swift in Sources */,
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,

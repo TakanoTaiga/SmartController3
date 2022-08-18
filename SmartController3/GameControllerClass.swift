@@ -43,6 +43,8 @@ class GameControllerClass : ObservableObject{
     
     @Published var debugData : String = ""
     
+    private var sendingArray : [String] = ["","","","",""]
+    
     
     init(){
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil, using: didConnectControllerHandler)
@@ -194,36 +196,57 @@ class GameControllerClass : ObservableObject{
         }
     }
     
+    private func checkOverlap(data:String)-> Bool{
+        sendingArray[4] = sendingArray[3]
+        sendingArray[3] = sendingArray[2]
+        sendingArray[2] = sendingArray[1]
+        sendingArray[1] = sendingArray[0]
+        sendingArray[0] = data
+        
+        if(sendingArray[4] == sendingArray[3] &&
+           sendingArray[3] == sendingArray[2] &&
+           sendingArray[2] == sendingArray[1] &&
+           sendingArray[1] == sendingArray[0]){
+            return false
+        }else{
+            return true
+        }
+        
+    }
+    
     public func sendGameControllerStatus(){
         var sendingItem : String = "GCINFO,"
-        sendingItem += "1:" + String(self.leftJoystic[0]) + ":" + String(self.leftJoystic[1]) + ","
-        sendingItem += "2:" + String(self.rightJoystic[0]) + ":" + String(self.rightJoystic[1]) + ","
+        sendingItem += "J:" + String(self.leftJoystic[0] * -1) + ":" + String(self.leftJoystic[1]) + ","
+        sendingItem += "T:" + String(self.leftTrigger) + ","
         
-        sendingItem += "3:" + String(self.leftTrigger) + ","
-        sendingItem += "4:" + String(self.rightTrigger) + ","
+        sendingItem += "J:" + String(self.rightJoystic[0] * -1) + ":" + String(self.rightJoystic[1]) + ","
+        sendingItem += "T:" + String(self.rightTrigger) + ","
         
-        sendingItem += "5:" + self.Bool2String(bool: self.dpadLeft) + ","
-        sendingItem += "6:" + self.Bool2String(bool: self.dpadUp) + ","
-        sendingItem += "7:" + self.Bool2String(bool: self.dpadRight) + ","
-        sendingItem += "8:" + self.Bool2String(bool: self.dpadDown) + ","
-        
-        sendingItem += "9:" + self.Bool2String(bool: self.buttonX) + ","
-        sendingItem += "A:" + self.Bool2String(bool: self.buttonY) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.buttonA) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.buttonB) + ","
-        sendingItem += "C:" + self.Bool2String(bool: self.buttonA) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.buttonX) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.buttonY) + ","
         
-        sendingItem += "D:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
-        sendingItem += "E:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.leftShoulderButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.rightShoulderButton) + ","
         
-        sendingItem += "F:" + self.Bool2String(bool: self.optionButton) + ","
-        sendingItem += "G:" + self.Bool2String(bool: self.menuButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.optionButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.menuButton) + ","
         
-        sendingItem += "H:" + self.Bool2String(bool: self.leftShoulderButton) + ","
-        sendingItem += "I:" + self.Bool2String(bool: self.rightShoulderButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
         
-        sendingItem += "J:" + self.Bool2String(bool: self.leftTriggerButton) + ","
-        sendingItem += "K:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
+        sendingItem += "B:" + self.Bool2String(bool: self.dpadLeft) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.dpadUp) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.dpadRight) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.dpadDown) + ","
+
+        sendingItem += "B:" + self.Bool2String(bool: self.leftTriggerButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
         
-        self.send(item: sendingItem)
+        if(checkOverlap(data: sendingItem)){
+            self.send(item: sendingItem)
+            NSLog(sendingItem)
+        }
     }
 }

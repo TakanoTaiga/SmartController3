@@ -62,7 +62,7 @@ class ROSConnect : ObservableObject{
             self.log4ROSC.nodeLife = false
             self.send(item: "PING")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 if self.log4ROSC.nodeLife{
                     //alive ros node
                     //Check Node infomation packet
@@ -73,6 +73,7 @@ class ROSConnect : ObservableObject{
                         //full check complete
                         self.log4ROSC.log4NWError = ""
                     }
+                    return
                 }else{
                     //lost ros node
                     self.log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Lost Node")
@@ -145,7 +146,7 @@ class ROSConnect : ObservableObject{
         
         self.NodeCheckHandler()
         self.nodeCheckTimer?.invalidate()
-        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true){ _ in
+        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){ _ in
             self.NodeCheckHandler()
         }
     }
