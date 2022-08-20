@@ -15,8 +15,19 @@ struct ContentView: View {
         HStack {
             Spacer()
             
-            DebugTerminal(GCC: controllerClassObject)
-                .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.1, alignment: .center)
+            VStack{
+                Spacer()
+                DebugTerminal(GCC: controllerClassObject , ROSConnectHandler: ROSConnectHandler)
+                    .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 5, alignment: .center)
+                
+                Spacer()
+                
+                ROSView()
+                    .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.5, alignment: .center)
+                
+                Spacer()
+            }
+            
             
             Spacer()
             

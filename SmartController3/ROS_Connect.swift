@@ -19,6 +19,7 @@ struct pramROSConnect{
 
 class ROSConnect : ObservableObject{
     @Published var log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Not connect")
+    @Published var counter = 0
     
     private var speaker : NWConnection? //Handler
     private var speakerForROS : NWConnection?
@@ -35,6 +36,9 @@ class ROSConnect : ObservableObject{
         self.speaker!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
                 NSLog("ROSC:Send:Data was sent to UDP")
+                DispatchQueue.main.async {
+                    self.counter += 1
+                }
             } else {
                 NSLog("ROSC:Send:NWError:\(NWError!)")
             }
@@ -45,6 +49,10 @@ class ROSConnect : ObservableObject{
         self.speakerForROS!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
                 NSLog("ROSC:SROSN:Data was sent to UDP")
+                DispatchQueue.main.async {
+                    self.counter += 1
+                }
+                
             } else {
                 NSLog("ROSC:SROSN:NWError:\(NWError!)")
                 DispatchQueue.main.async {

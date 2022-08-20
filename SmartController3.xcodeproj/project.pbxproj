@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
+		FB787E8D28B125C20058F548 /* ROSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB787E8C28B125C20058F548 /* ROSView.swift */; };
 		FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */; };
 		FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A9285D94BC000F0F35 /* ContentView.swift */; };
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
+		FB787E8C28B125C20058F548 /* ROSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSView.swift; sourceTree = "<group>"; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartController3App.swift; sourceTree = "<group>"; };
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -72,8 +74,9 @@
 				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
 				FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
-				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
 				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
+				FB787E8C28B125C20058F548 /* ROSView.swift */,
+				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
 				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
 				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
 				FB8D25AB285D94BD000F0F35 /* Assets.xcassets */,
@@ -169,6 +172,7 @@
 				FB8D25B6285D9502000F0F35 /* GameControllerClass.swift in Sources */,
 				FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */,
 				FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */,
+				FB787E8D28B125C20058F548 /* ROSView.swift in Sources */,
 				FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */,
 				FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */,
 			);

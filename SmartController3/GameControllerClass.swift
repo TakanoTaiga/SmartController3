@@ -45,6 +45,8 @@ class GameControllerClass : ObservableObject{
     
     private var sendingArray : [String] = ["","","","",""]
     
+    @Published var counter = 0
+    
     
     init(){
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil, using: didConnectControllerHandler)
@@ -236,16 +238,18 @@ class GameControllerClass : ObservableObject{
         sendingItem += "B:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
         
-        sendingItem += "B:" + self.Bool2String(bool: self.dpadLeft) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.dpadUp) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.dpadRight) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.dpadDown) + ","
-
-        sendingItem += "B:" + self.Bool2String(bool: self.leftTriggerButton) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
+//        sendingItem += "B:" + self.Bool2String(bool: self.dpadLeft) + ","
+//        sendingItem += "B:" + self.Bool2String(bool: self.dpadUp) + ","
+//        sendingItem += "B:" + self.Bool2String(bool: self.dpadRight) + ","
+//        sendingItem += "B:" + self.Bool2String(bool: self.dpadDown) + ","
+//
+//        sendingItem += "B:" + self.Bool2String(bool: self.leftTriggerButton) + ","
+//        sendingItem += "B:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
+        sendingItem += ",END"
         
         if(checkOverlap(data: sendingItem)){
             self.send(item: sendingItem)
+            self.counter += 1
             NSLog(sendingItem)
         }
     }
