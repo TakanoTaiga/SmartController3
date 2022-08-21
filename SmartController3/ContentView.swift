@@ -22,7 +22,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                ROSView()
+                ROSView(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
                     .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.5, alignment: .center)
                 
                 Spacer()

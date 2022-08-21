@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ROSView: View {
-    @State var power = 0.0
-    @State var anguler = 0.0
+    @ObservedObject var ROSConnectHandler : ROSConnect
+    @ObservedObject var GCC : GameControllerClass
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
@@ -18,39 +19,54 @@ struct ROSView: View {
             
             VStack{
                 HStack{
-                    Button(action: {
-                        
-                    }, label: {
+                    Button(action: {}, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(height: 50, alignment: .center)
                                 .foregroundColor(.black)
                                 .opacity(0.5)
-                            Text("C1")
+                            Text("\(ROSConnectHandler.log4ROSC.customButtonLabel1)")
                                 .foregroundColor(.white)
                         }
-                    })
-                    Button(action: {
-                        
-                    }, label: {
+                    }).simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged{_ in
+                                GCC.c1Button = true
+                            }
+                            .onEnded{_ in
+                                GCC.c1Button = false
+                            }
+                    )
+                    
+                    
+                    
+                    Button(action: {}, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .frame(height: 50, alignment: .center)
                                 .foregroundColor(.black)
                                 .opacity(0.5)
-                            Text("C2")
+                            Text("\(ROSConnectHandler.log4ROSC.customButtonLabel2)")
                                 .foregroundColor(.white)
                         }
-                    })
+                    }).simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged{_ in
+                                GCC.c2Button = true
+                            }
+                            .onEnded{_ in
+                                GCC.c2Button = false
+                            }
+                    )
                 }
                 
                 Spacer()
-                Slider(value: $power ,in: 0...100 , step: 1)
-                Text("Power:\(Int(power))")
+                Slider(value: $GCC.s1Slider ,in: 0...100 , step: 1)
+                Text("\(ROSConnectHandler.log4ROSC.customSliderLabel1):\(Int(GCC.s1Slider))")
                 
                 Spacer()
-                Slider(value: $anguler ,in: 0...100 , step: 1)
-                Text("Angular:\(Int(anguler))")
+                Slider(value: $GCC.s2Slider ,in: 0...100 , step: 1)
+                Text("\(ROSConnectHandler.log4ROSC.customSliderLabel2):\(Int(GCC.s2Slider))")
                 Spacer()
             }
             .padding(.all)

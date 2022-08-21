@@ -14,11 +14,15 @@ struct pramROSConnect{
     var deviceName : String
     var nodeName : String
     var nodeLife : Bool
+    var customButtonLabel1 : String
+    var customButtonLabel2 : String
+    var customSliderLabel1 : String
+    var customSliderLabel2 : String
     var log4NWError : String
 }
 
 class ROSConnect : ObservableObject{
-    @Published var log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Not connect")
+    @Published var log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
     @Published var counter = 0
     
     private var speaker : NWConnection? //Handler
@@ -84,13 +88,13 @@ class ROSConnect : ObservableObject{
                     return
                 }else{
                     //lost ros node
-                    self.log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Lost Node")
+                    self.log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
                     self.SearchROSNode()
                 }
             }
         }else{
             //lost ros node
-            self.log4ROSC = pramROSConnect(nodeIP: "", deviceName: "", nodeName: "", nodeLife: false, log4NWError: "Lost Node")
+            self.log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
             self.SearchROSNode()
         }
     }
@@ -124,7 +128,7 @@ class ROSConnect : ObservableObject{
                         DispatchQueue.main.async {
                             self.log4ROSC.deviceName = String(rcvDataString.dropFirst("MYNAMEIS".count))
                             self.log4ROSC.nodeLife = true
-                            self.send(item: "WHATISYORNODE")
+                            self.send(item: "REQNODEPARAM")
                         }
                     }
                     
@@ -141,6 +145,30 @@ class ROSConnect : ObservableObject{
                         DispatchQueue.main.async {
                             self.log4ROSC.nodeLife = true
                             self.log4ROSC.log4NWError = ""
+                        }
+                    }
+                    
+                    if(rcvDataString.contains("C1LABEL")){
+                        DispatchQueue.main.async {
+                            self.log4ROSC.customButtonLabel1 = String(rcvDataString.dropFirst("C1LABEL".count))
+                        }
+                    }
+                    
+                    if(rcvDataString.contains("C2LABEL")){
+                        DispatchQueue.main.async {
+                            self.log4ROSC.customButtonLabel2 = String(rcvDataString.dropFirst("C2LABEL".count))
+                        }
+                    }
+                    
+                    if(rcvDataString.contains("S1LABEL")){
+                        DispatchQueue.main.async {
+                            self.log4ROSC.customSliderLabel1 = String(rcvDataString.dropFirst("S1LABEL".count))
+                        }
+                    }
+                    
+                    if(rcvDataString.contains("S2LABEL")){
+                        DispatchQueue.main.async {
+                            self.log4ROSC.customSliderLabel2 = String(rcvDataString.dropFirst("S2LABEL".count))
                         }
                     }
                     

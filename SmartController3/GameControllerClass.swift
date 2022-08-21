@@ -16,8 +16,8 @@ class GameControllerClass : ObservableObject{
     @Published var leftJoystic : [Float] = [0,0]
     @Published var rightJoystic : [Float] = [0,0]
     
-    @Published var leftTrigger : Float = 0
-    @Published var rightTrigger : Float = 0
+    @Published var leftTrigger : Float = 1.0
+    @Published var rightTrigger : Float = 1.0
     
     @Published var dpadLeft : Bool = false
     @Published var dpadUp : Bool = false
@@ -40,6 +40,11 @@ class GameControllerClass : ObservableObject{
     
     @Published var leftTriggerButton : Bool = false
     @Published var rightTriggerButton : Bool = false
+    
+    @Published var c1Button : Bool = false
+    @Published var c2Button : Bool = false
+    @Published var s1Slider : Float = 0.0
+    @Published var s2Slider : Float = 0.0
     
     @Published var debugData : String = ""
     
@@ -112,9 +117,11 @@ class GameControllerClass : ObservableObject{
     private func trigger(_ trigger: Int, _ value: Float){
         switch trigger{
         case 1:
-            leftTrigger = value
+            leftTrigger = 2.0 * value - 1.0
+            leftTrigger *= -1
         case 2:
-            rightTrigger = value
+            rightTrigger = 2.0 * value - 1.0
+            rightTrigger *= -1
         default:
             NSLog("ERROR:GameControllerClass-trigger")
         }
@@ -224,6 +231,22 @@ class GameControllerClass : ObservableObject{
         sendingItem += "J:" + String(self.rightJoystic[0] * -1) + ":" + String(self.rightJoystic[1]) + ","
         sendingItem += "T:" + String(self.rightTrigger) + ","
         
+        if(self.dpadLeft){
+            sendingItem += "T:1,"
+        }else if(self.dpadRight){
+            sendingItem += "T:-1,"
+        }else{
+            sendingItem += "T:0,"
+        }
+        
+        if(self.dpadUp){
+            sendingItem += "T:1,"
+        }else if(self.dpadDown){
+            sendingItem += "T:-1,"
+        }else{
+            sendingItem += "T:0,"
+        }
+        
         sendingItem += "B:" + self.Bool2String(bool: self.buttonA) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.buttonB) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.buttonX) + ","
@@ -235,17 +258,19 @@ class GameControllerClass : ObservableObject{
         sendingItem += "B:" + self.Bool2String(bool: self.optionButton) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.menuButton) + ","
         
+        sendingItem += "B:0,"
+        
         sendingItem += "B:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
         sendingItem += "B:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
         
-//        sendingItem += "B:" + self.Bool2String(bool: self.dpadLeft) + ","
-//        sendingItem += "B:" + self.Bool2String(bool: self.dpadUp) + ","
-//        sendingItem += "B:" + self.Bool2String(bool: self.dpadRight) + ","
-//        sendingItem += "B:" + self.Bool2String(bool: self.dpadDown) + ","
-//
-//        sendingItem += "B:" + self.Bool2String(bool: self.leftTriggerButton) + ","
-//        sendingItem += "B:" + self.Bool2String(bool: self.rightTriggerButton) + ",END"
-        sendingItem += ",END"
+        sendingItem += "B:0,"
+        
+        sendingItem += "C:" + self.Bool2String(bool: self.c1Button) + ","
+        sendingItem += "C:" + self.Bool2String(bool: self.c2Button) + ","
+        sendingItem += "S:" + String(self.s1Slider) + ","
+        sendingItem += "S:" + String(self.s2Slider) + ","
+        
+        sendingItem += "END"
         
         if(checkOverlap(data: sendingItem)){
             self.send(item: sendingItem)
