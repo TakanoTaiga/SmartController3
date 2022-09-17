@@ -52,14 +52,14 @@ class ROSConnect : ObservableObject{
     private func SearchROSNode(){
         self.speakerForROS!.send(content: "WHATISNODEIP".data(using: .utf8)!, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError == nil) {
-                NSLog("ROSC:SROSN:Data was sent to UDP")
                 DispatchQueue.main.async {
+                    NSLog("ROSC:SROSN:Data was sent to UDP")
                     self.counter += 1
                 }
                 
             } else {
-                NSLog("ROSC:SROSN:NWError:\(NWError!)")
                 DispatchQueue.main.async {
+                    NSLog("ROSC:SROSN:NWError:\(NWError!)")
                     self.speakerForROS = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
                     self.speakerForROS!.start(queue: self.udpQueue)
                 }
