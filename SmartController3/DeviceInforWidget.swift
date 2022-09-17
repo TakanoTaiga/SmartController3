@@ -9,7 +9,6 @@ import SwiftUI
 
 struct DeviceInforWidget: View {
     @ObservedObject var GameControllerClass : GameControllerClass
-    @State var isConnected = false
     
     var body: some View {
         ZStack {

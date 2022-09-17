@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB787E8D28B125C20058F548 /* ROSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB787E8C28B125C20058F548 /* ROSView.swift */; };
+		FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */; };
 		FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */; };
 		FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A9285D94BC000F0F35 /* ContentView.swift */; };
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB787E8C28B125C20058F548 /* ROSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSView.swift; sourceTree = "<group>"; };
 		FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartController3.entitlements; sourceTree = "<group>"; };
+		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartController3App.swift; sourceTree = "<group>"; };
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		FB8D25A6285D94BC000F0F35 /* SmartController3 */ = {
 			isa = PBXGroup;
 			children = (
+				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 				FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */,
 				FBFE9D9E28D55A7600C483DE /* Info.plist */,
 				FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */,
@@ -175,6 +178,7 @@
 				FBA8BC3328A4B9C1006D4150 /* DebugTerminal.swift in Sources */,
 				FB8D25B8285D9D9B000F0F35 /* DeviceInforWidget.swift in Sources */,
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
+				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
 				FB8D25B6285D9502000F0F35 /* GameControllerClass.swift in Sources */,
 				FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */,
@@ -326,7 +330,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.30;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -359,7 +363,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.30;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

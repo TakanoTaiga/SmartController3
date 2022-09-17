@@ -87,41 +87,14 @@ struct ControllerInfomationWidget: View {
                     }
                     
                     VStack{
-                        ZStack {
-                            Circle()
-                                .frame(width: 70, height: 70, alignment: .center)
-                                .foregroundColor(.black)
-                                .opacity(0.5)
-                            
-                            
-                            
-                            Image(systemName: "dpad")
-                                .foregroundColor(.white)
-                                .font(.title)
-                            
-                            if GameController.dpadUp{
-                                Image(systemName: "dpad.up.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            
-                            if GameController.dpadDown{
-                                Image(systemName: "dpad.down.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            
-                            if GameController.dpadRight{
-                                Image(systemName: "dpad.right.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            
-                            if GameController.dpadLeft{
-                                Image(systemName: "dpad.left.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
+                        if GameController.deviceName.contains("Xbox") {
+                            CircleProgressView(progress: Double(GameController.battery)  , symbol: "logo.xbox")
+                                .frame(width: UIScreen.main.bounds.height / 6, height: UIScreen.main.bounds.height / 6, alignment: .center)
+                                //.padding()
+                        }else{
+                            CircleProgressView(progress: Double(GameController.battery)  , symbol: "gamecontroller")
+                                .frame(width: UIScreen.main.bounds.height / 6, height: UIScreen.main.bounds.height / 6, alignment: .center)
+                                //.padding()
                         }
                         
                         ZStack {
