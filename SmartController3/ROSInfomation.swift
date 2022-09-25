@@ -11,54 +11,78 @@ struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
     @ObservedObject var GCC : GameControllerClass
     @State var gccTimer : Timer!
+    @State var gccUpdateTimer : Timer!
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
                 .foregroundColor(.gray)
                 .opacity(0.1)
             
+            
             VStack{
                 Spacer()
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(ROSConnectHandler.log4ROSC.nodeName)
-                            .font(.title)
-                        Text(ROSConnectHandler.log4ROSC.deviceName)
-                            .opacity(0.5)
+                        if(ROSConnectHandler.log4ROSC.deviceName != ""){
+                            Text("[Device]: \(ROSConnectHandler.log4ROSC.deviceName)")
+                        }
+                        
+                        if(ROSConnectHandler.log4ROSC.nodeName != ""){
+                            Text("[Node]: \(ROSConnectHandler.log4ROSC.nodeName)")
+                                .padding(.bottom)
+                        }
+                        
+                        
+                        if(ROSConnectHandler.log4ROSC.log4NWError != ""){
+                            Text("[L4SC3]: \(ROSConnectHandler.log4ROSC.log4NWError)")
+                                .foregroundColor(.red)
+                        }
+                        
+                        if(ROSConnectHandler.log4ROSC.smartuiInfomation != ""){
+                            Text("[S-INFO]: \(ROSConnectHandler.log4ROSC.smartuiInfomation)")
+                        }
+                        
+                        if(ROSConnectHandler.log4ROSC.smartuiError != ""){
+                            Text("[S-EMER]: \(ROSConnectHandler.log4ROSC.smartuiError)")
+                                .foregroundColor(.red)
+                        }
                     }
                     Spacer()
                 }
                 
                 Spacer()
                 
-                if ROSConnectHandler.log4ROSC.log4NWError == "" {
-                    HStack{
-                        Image(systemName: "checkmark.circle")
-                            .foregroundColor(.green)
-                        Text("Scan complete")
-                            .onAppear(){
-                                GCC.NWSetup(host: ROSConnectHandler.log4ROSC.nodeIP)
-                                gccTimer?.invalidate()
-                                gccTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true){ _ in
-                                    GCC.sendGameControllerStatus()
+                if ROSConnectHandler.log4ROSC.log4NWError == "Not Connected" {
+                    Image(systemName: "xmark.circle")
+                        .foregroundColor(.red)
+                        .font(.title)
+                        .onAppear(){
+                            gccTimer?.invalidate()
+                            gccUpdateTimer?.invalidate()
+                        }
+                        .onDisappear(){
+                            GCC.NWSetup(host: ROSConnectHandler.log4ROSC.nodeIP)
+                            gccTimer?.invalidate()
+                            gccTimer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true){ _ in
+                                GCC.sendGameControllerStatus(force: false)
+                            }
+                            
+                            gccUpdateTimer?.invalidate()
+                            gccUpdateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){ _ in
+                                if(GCC.needUpdate){
+                                    GCC.sendGameControllerStatus(force: true)
                                 }
+                                GCC.needUpdate = true
                             }
-                            .onDisappear(){
-                                gccTimer?.invalidate()
-                            }
-                    }
-                }else{
-                    HStack{
-                        Image(systemName: "xmark.circle")
-                            .foregroundColor(.red)
-                        Text(ROSConnectHandler.log4ROSC.log4NWError)
-                    }
+                        }
                 }
-                
                 Spacer()
             }
             .padding()
+        }
+        .onTapGesture {
+            ROSConnectHandler.resetStatus()
         }
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DebugTerminal: View {
+struct PeformanceView: View {
     @ObservedObject var GCC : GameControllerClass
     @ObservedObject var ROSConnectHandler : ROSConnect
     @State var timer : Timer!
@@ -23,7 +23,7 @@ struct DebugTerminal: View {
                 Spacer()
                 
                 HStack{
-                    ForEach(0..<status.count){num in
+                    ForEach(0..<25){num in
                         VStack{
                             Spacer()
                             showNetwork(trafic: status[num])

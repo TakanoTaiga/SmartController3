@@ -9,7 +9,7 @@ import Network
 import SystemConfiguration
 import CoreTelephony
 
-struct pramROSConnect{
+struct paramROSConnect{
     var nodeIP : NWEndpoint.Host
     var deviceName : String
     var nodeName : String
@@ -19,21 +19,36 @@ struct pramROSConnect{
     var customSliderLabel1 : String
     var customSliderLabel2 : String
     var log4NWError : String
+    var smartuiInfomation : String
+    var smartuiError : String
 }
 
 class ROSConnect : ObservableObject{
-    @Published var log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
+    private let initParamROSConnect = paramROSConnect(nodeIP: NWEndpoint.Host(""),
+                                                      deviceName: "",
+                                                      nodeName: "",
+                                                      nodeLife: false,
+                                                      customButtonLabel1: "" ,
+                                                      customButtonLabel2: "",
+                                                      customSliderLabel1: "" ,
+                                                      customSliderLabel2: "",
+                                                      log4NWError: "Not Connected" ,
+                                                      smartuiInfomation: "" ,
+                                                      smartuiError: "")
+    
+    @Published var log4ROSC : paramROSConnect
     @Published var counter = 0
     
     private var speaker : NWConnection? //Handler
     private var speakerForROS : NWConnection?
     private var listener = try! NWListener(using: .udp, on: 64201) //Handler
     
-    private let udpQueue = DispatchQueue(label: "UDPQueue" , qos: .utility , attributes: .concurrent)
+    private let udpQueue = DispatchQueue(label: "UDPQueue" , qos: .userInteractive , attributes: .concurrent)
     
     
     private var nodeCheckTimer : Timer!
     private var getNetInfoHndlr = GetNetworkInfomationHandler()
+    
     
     private func send(item : String){
         let payload = item.data(using: .utf8)!
@@ -74,11 +89,17 @@ class ROSConnect : ObservableObject{
             self.log4ROSC.nodeLife = false
             self.send(item: "PING")
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                 if self.log4ROSC.nodeLife{
                     //alive ros node
                     //Check Node infomation packet
-                    if self.log4ROSC.deviceName == "" || self.log4ROSC.nodeName == ""{
+                    if self.log4ROSC.deviceName == "" ||
+                        self.log4ROSC.nodeName == "" ||
+                        self.log4ROSC.customButtonLabel1 == "" ||
+                        self.log4ROSC.customButtonLabel2 == "" ||
+                        self.log4ROSC.customSliderLabel1 == "" ||
+                        self.log4ROSC.customSliderLabel2 == ""
+                    {
                         self.send(item: "WHOAREYOU")
                         self.log4ROSC.log4NWError = "Node infomation is breaked"
                     }else{
@@ -88,18 +109,24 @@ class ROSConnect : ObservableObject{
                     return
                 }else{
                     //lost ros node
-                    self.log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
+                    self.log4ROSC = self.initParamROSConnect
                     self.SearchROSNode()
                 }
             }
         }else{
             //lost ros node
-            self.log4ROSC = pramROSConnect(nodeIP: NWEndpoint.Host(""), deviceName: "", nodeName: "", nodeLife: false, customButtonLabel1: "" , customButtonLabel2: "", customSliderLabel1: "" , customSliderLabel2: "",log4NWError: "Not connect")
+            self.log4ROSC = self.initParamROSConnect
             self.SearchROSNode()
         }
     }
     
+    public func resetStatus(){
+        self.log4ROSC = self.initParamROSConnect
+    }
+    
     init(){
+        self.log4ROSC = self.initParamROSConnect
+        
         self.speakerForROS = NWConnection(host: "255.255.255.255", port: 64201, using: .udp)
         self.speakerForROS!.start(queue: self.udpQueue)
         
@@ -172,6 +199,18 @@ class ROSConnect : ObservableObject{
                         }
                     }
                     
+                    if(rcvDataString.contains("SINFO")){
+                        DispatchQueue.main.async{
+                            self.log4ROSC.smartuiInfomation = String(rcvDataString.dropFirst("SINFO".count))
+                        }
+                    }
+                       
+                    if(rcvDataString.contains("SEMER")){
+                        DispatchQueue.main.async{
+                            self.log4ROSC.smartuiError = String(rcvDataString.dropFirst("SEMER".count))
+                        }
+                    }
+                    
                     newConnection.cancel()
                 }else{
                     newConnection.cancel()
@@ -182,7 +221,7 @@ class ROSConnect : ObservableObject{
         
         self.NodeCheckHandler()
         self.nodeCheckTimer?.invalidate()
-        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true){ _ in
+        self.nodeCheckTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true){ _ in
             self.NodeCheckHandler()
         }
     }

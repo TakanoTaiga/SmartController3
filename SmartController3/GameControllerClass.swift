@@ -51,6 +51,7 @@ class GameControllerClass : ObservableObject{
     private var sendingArray : [String] = ["","","","",""]
     
     @Published var counter = 0
+    @Published var needUpdate = true;
     
     
     init(){
@@ -166,7 +167,7 @@ class GameControllerClass : ObservableObject{
             NSLog("ERROR:GameControllerClass-button")
         }
         
-        self.sendGameControllerStatus()
+        self.sendGameControllerStatus(force: false)
     }
     
     //Network Connections
@@ -223,7 +224,8 @@ class GameControllerClass : ObservableObject{
         
     }
     
-    public func sendGameControllerStatus(){
+    
+    public func sendGameControllerStatus(force : Bool){
         var sendingItem : String = "GCINFO,"
         sendingItem += "J:" + String(self.leftJoystic[0] * -1) + ":" + String(self.leftJoystic[1]) + ","
         sendingItem += "T:" + String(self.leftTrigger) + ","
@@ -272,9 +274,17 @@ class GameControllerClass : ObservableObject{
         
         sendingItem += "END"
         
+        if(force){
+            self.send(item: sendingItem)
+            self.counter += 1
+            NSLog(sendingItem)
+            return
+        }
+        
         if(checkOverlap(data: sendingItem)){
             self.send(item: sendingItem)
             self.counter += 1
+            self.needUpdate = false
             NSLog(sendingItem)
         }
     }
