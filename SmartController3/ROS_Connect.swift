@@ -8,6 +8,7 @@
 import Network
 import SystemConfiguration
 import CoreTelephony
+import AVFoundation
 
 struct paramROSConnect{
     var nodeIP : NWEndpoint.Host
@@ -48,6 +49,8 @@ class ROSConnect : ObservableObject{
     
     private var nodeCheckTimer : Timer!
     private var getNetInfoHndlr = GetNetworkInfomationHandler()
+    
+    private let synthesizer = AVSpeechSynthesizer()
     
     
     private func send(item : String){
@@ -111,12 +114,19 @@ class ROSConnect : ObservableObject{
                     //lost ros node
                     self.log4ROSC = self.initParamROSConnect
                     self.SearchROSNode()
+                    let utterance = AVSpeechUtterance(string: "ロボットに接続できません")
+                    utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
+                    utterance.rate = 0.5
+                    self.synthesizer.speak(utterance)
                 }
             }
         }else{
             //lost ros node
             self.log4ROSC = self.initParamROSConnect
             self.SearchROSNode()
+//            let utterance = AVSpeechUtterance(string: "Unable to establish a connection")
+//            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+//            self.synthesizer.speak(utterance)
         }
     }
     

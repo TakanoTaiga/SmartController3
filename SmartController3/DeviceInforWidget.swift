@@ -10,6 +10,7 @@ import SwiftUI
 struct DeviceInforWidget: View {
     @ObservedObject var GameControllerClass : GameControllerClass
     
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
@@ -44,6 +45,7 @@ struct DeviceInforWidget: View {
                             .font(.system(size: 40))
                             .padding(.all , 4)
                             .opacity(0.9)
+                        
                     }
                     .padding(.leading)
                     Spacer()

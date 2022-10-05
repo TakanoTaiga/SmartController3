@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
     @ObservedObject var GCC : GameControllerClass
     @State var gccTimer : Timer!
     @State var gccUpdateTimer : Timer!
+    
+    let synthesizer = AVSpeechSynthesizer()
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
@@ -75,6 +79,10 @@ struct ROSInfomation: View {
                                 }
                                 GCC.needUpdate = true
                             }
+                            let utterance = AVSpeechUtterance(string: "接続が完了しました")
+                            utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
+                            utterance.rate = 0.5
+                            synthesizer.speak(utterance)
                         }
                 }
                 Spacer()

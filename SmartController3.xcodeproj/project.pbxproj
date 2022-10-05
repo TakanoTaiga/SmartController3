@@ -27,7 +27,7 @@
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartController3.entitlements; sourceTree = "<group>"; };
 		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
-		FB7BEA2828E068670054BCBB /* SmartUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SmartUI.swift; path = SmartController3/SmartUI.swift; sourceTree = "<group>"; };
+		FB7BEA2828E068670054BCBB /* SmartUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartUI.swift; sourceTree = "<group>"; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartController3App.swift; sourceTree = "<group>"; };
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +57,8 @@
 		FB7BEA2A28E068810054BCBB /* src */ = {
 			isa = PBXGroup;
 			children = (
+				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
+				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */,
 				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
 				FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */,
@@ -73,7 +75,6 @@
 		FB8D259B285D94BC000F0F35 = {
 			isa = PBXGroup;
 			children = (
-				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25A6285D94BC000F0F35 /* SmartController3 */,
 				FB8D25A5285D94BC000F0F35 /* Products */,
 			);
@@ -90,7 +91,6 @@
 		FB8D25A6285D94BC000F0F35 /* SmartController3 */ = {
 			isa = PBXGroup;
 			children = (
-				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
 				FB7BEA2A28E068810054BCBB /* src */,
 				FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */,
 				FBFE9D9E28D55A7600C483DE /* Info.plist */,
@@ -319,6 +319,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -334,11 +335,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.30;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -352,6 +354,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -367,11 +370,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.30;
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
