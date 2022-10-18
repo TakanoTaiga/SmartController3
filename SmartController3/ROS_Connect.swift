@@ -124,9 +124,6 @@ class ROSConnect : ObservableObject{
             //lost ros node
             self.log4ROSC = self.initParamROSConnect
             self.SearchROSNode()
-//            let utterance = AVSpeechUtterance(string: "Unable to establish a connection")
-//            utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-//            self.synthesizer.speak(utterance)
         }
     }
     

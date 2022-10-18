@@ -79,10 +79,6 @@ struct ROSInfomation: View {
                                 }
                                 GCC.needUpdate = true
                             }
-                            let utterance = AVSpeechUtterance(string: "接続が完了しました")
-                            utterance.voice = AVSpeechSynthesisVoice(language: "ja-JP")
-                            utterance.rate = 0.5
-                            synthesizer.speak(utterance)
                         }
                 }
                 Spacer()
