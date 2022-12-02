@@ -4,8 +4,8 @@
 - MacBook Pro (16-inch, 2021)
   - M1 Max
   - 64GB RAM
-  - Xcode 13.4.1 (13F100)
+  - Xcode 14.1 (14B47b)
   
-- iPhone13 mini
-  - iOS 15.5(19F77)
+- iPhone14 Pro
+  - iOS 16.1.2(20B110)
   
