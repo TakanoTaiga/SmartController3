@@ -6,16 +6,13 @@
 //
 
 import SwiftUI
-import AVFoundation
 
 struct ROSInfomation: View {
     @ObservedObject var ROSConnectHandler : ROSConnect
     @ObservedObject var GCC : GameControllerClass
     @State var gccTimer : Timer!
     @State var gccUpdateTimer : Timer!
-    
-    let synthesizer = AVSpeechSynthesizer()
-    
+        
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
@@ -30,26 +27,31 @@ struct ROSInfomation: View {
                     VStack(alignment: .leading) {
                         if(ROSConnectHandler.log4ROSC.deviceName != ""){
                             Text("[Device]: \(ROSConnectHandler.log4ROSC.deviceName)")
+                                .font(.title)
                         }
                         
                         if(ROSConnectHandler.log4ROSC.nodeName != ""){
                             Text("[Node]: \(ROSConnectHandler.log4ROSC.nodeName)")
                                 .padding(.bottom)
+                                .font(.title)
                         }
                         
                         
                         if(ROSConnectHandler.log4ROSC.log4NWError != ""){
                             Text("[L4SC3]: \(ROSConnectHandler.log4ROSC.log4NWError)")
                                 .foregroundColor(.red)
+                                .font(.title)
                         }
                         
                         if(ROSConnectHandler.log4ROSC.smartuiInfomation != ""){
                             Text("[S-INFO]: \(ROSConnectHandler.log4ROSC.smartuiInfomation)")
+                                .font(.title)
                         }
                         
                         if(ROSConnectHandler.log4ROSC.smartuiError != ""){
                             Text("[S-EMER]: \(ROSConnectHandler.log4ROSC.smartuiError)")
                                 .foregroundColor(.red)
+                                .font(.title)
                         }
                     }
                     Spacer()
