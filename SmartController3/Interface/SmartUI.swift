@@ -16,20 +16,6 @@ struct SmartUI: View {
             RoundedRectangle(cornerRadius: 20)
                 .foregroundColor(.gray)
                 .opacity(0.1)
-                .gesture(DragGesture()
-                            .onEnded({ value in
-                                if (value.translation.width < 0 ) {
-                                    // swiped to left
-                                    NSLog("swipe to left")
-                                    if(GCC.s1Slider > 0){
-                                        GCC.s1Slider -= 1
-                                    }
-                                } else if (value.translation.width > 0 ) {
-                                    // swiped to right
-                                    NSLog("swipe to right")
-                                    GCC.s1Slider += 1
-                                }
-                            }))
             
             VStack{
                 HStack{
@@ -79,23 +65,35 @@ struct SmartUI: View {
                 }
                 
                 Spacer()
-                Slider(value: $GCC.s1Slider ,in: 0...100 , step: 1)
-                Text("\(ROSConnectHandler.log4ROSC.customSliderLabel1):\(Int(GCC.s1Slider))")
+                Slider(value: $GCC.s1Slider ,in: 0...100 , step: 0.1)
+                Text("\(ROSConnectHandler.log4ROSC.customSliderLabel1):" + String(format: "%.1f", GCC.s1Slider))
                     .bold()
                     .font(.title3)
                     .padding(.top , 20)
                     .gesture(DragGesture()
                                 .onEnded({ value in
-                                    if (value.translation.width < 0 ) {
-                                        // swiped to left
-                                        NSLog("swipe to left")
-                                        if(GCC.s1Slider > 0){
-                                            GCC.s1Slider -= 1
+                                    if(abs(value.translation.width) > 150){
+                                        if (value.translation.width < 0 ) {
+                                            // swiped to left
+                                            if(GCC.s1Slider > 0){
+                                                GCC.s1Slider -= 1
+                                            }
+                                        } else if (value.translation.width > 0 ) {
+                                            // swiped to right
+                                            NSLog("swipe to right")
+                                            GCC.s1Slider += 1
                                         }
-                                    } else if (value.translation.width > 0 ) {
-                                        // swiped to right
-                                        NSLog("swipe to right")
-                                        GCC.s1Slider += 1
+                                    }else{
+                                        if (value.translation.width < 0 ) {
+                                            // swiped to left
+                                            if(GCC.s1Slider > 0){
+                                                GCC.s1Slider -= 0.2
+                                            }
+                                        } else if (value.translation.width > 0 ) {
+                                            // swiped to right
+                                            NSLog("swipe to right")
+                                            GCC.s1Slider += 0.2
+                                        }
                                     }
                                 }))
                 
