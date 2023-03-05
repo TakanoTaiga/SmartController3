@@ -11,7 +11,7 @@ struct ControllerInfomationWidget: View {
     @ObservedObject var GameController : GameControllerClass
     
     var body: some View {
-        if GameController.connected {
+        if GameController.gamepad.info.connected {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
                     .foregroundColor(.gray)
@@ -19,12 +19,13 @@ struct ControllerInfomationWidget: View {
                 
                 HStack {
                     VStack {
-                        if GameController.leftJoystic[0] != 0{
+                        if GameController.gamepad.leftJoystic.x != 0{
                             JoyStick(GameController: GameController , LR: true)
-                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.leftJoystic[0], y: GameController.leftJoystic[1]))))
+                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.gamepad.leftJoystic.x,
+                                                                                  y: GameController.gamepad.leftJoystic.y))))
                                 .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                         }else{
-                            if GameController.leftThumbstickButton {
+                            if GameController.gamepad.leftThumbstickButton {
                                 ZStack {
                                     Circle()
                                         .frame(width: 70, height: 70, alignment: .center)
@@ -53,12 +54,13 @@ struct ControllerInfomationWidget: View {
                         }
 
                         
-                        if GameController.rightJoystic[0] != 0{
+                        if GameController.gamepad.rightJoystic.x != 0{
                             JoyStick(GameController: GameController , LR: false)
-                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.rightJoystic[0], y: GameController.rightJoystic[1]))))
+                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.gamepad.rightJoystic.x,
+                                                                                  y: GameController.gamepad.rightJoystic.y))))
                                 .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                         }else{
-                            if GameController.rightThumbstickButton {
+                            if GameController.gamepad.rightThumbstickButton {
                                 ZStack {
                                     Circle()
                                         .frame(width: 70, height: 70, alignment: .center)
@@ -87,14 +89,16 @@ struct ControllerInfomationWidget: View {
                     }
                     
                     VStack{
-                        if GameController.deviceName.contains("Xbox") {
-                            CircleProgressView(progress: Double(GameController.battery)  , symbol: "logo.xbox")
-                                .frame(width: UIScreen.main.bounds.height / 6, height: UIScreen.main.bounds.height / 6, alignment: .center)
-                                //.padding()
+                        if GameController.gamepad.info.deviceName.contains("Xbox") {
+                            CircleProgressView(progress: Double(GameController.gamepad.info.battery) , symbol: "logo.xbox")
+                                .frame(width: UIScreen.main.bounds.height / 6,
+                                       height: UIScreen.main.bounds.height / 6,
+                                       alignment: .center)
                         }else{
-                            CircleProgressView(progress: Double(GameController.battery)  , symbol: "gamecontroller")
-                                .frame(width: UIScreen.main.bounds.height / 6, height: UIScreen.main.bounds.height / 6, alignment: .center)
-                                //.padding()
+                            CircleProgressView(progress: Double(GameController.gamepad.info.battery) , symbol: "gamecontroller")
+                                .frame(width: UIScreen.main.bounds.height / 6,
+                                       height: UIScreen.main.bounds.height / 6,
+                                       alignment: .center)
                         }
                         
                         ZStack {
@@ -107,22 +111,22 @@ struct ControllerInfomationWidget: View {
                                 .foregroundColor(.white)
                                 .font(.title)
                             
-                            if GameController.buttonY{
+                            if GameController.gamepad.button.y{
                                 Image(systemName: "circle.grid.cross.up.filled")
                                     .foregroundColor(.white)
                                     .font(.title)
                             }
-                            if GameController.buttonX{
+                            if GameController.gamepad.button.x{
                                 Image(systemName: "circle.grid.cross.left.filled")
                                     .foregroundColor(.white)
                                     .font(.title)
                             }
-                            if GameController.buttonA{
+                            if GameController.gamepad.button.a{
                                 Image(systemName: "circle.grid.cross.down.filled")
                                     .foregroundColor(.white)
                                     .font(.title)
                             }
-                            if GameController.buttonB{
+                            if GameController.gamepad.button.b{
                                 Image(systemName: "circle.grid.cross.right.filled")
                                     .foregroundColor(.white)
                                     .font(.title)
@@ -175,7 +179,7 @@ struct JoyStick: View {
                 .opacity(0.5)
             
             if LR{
-                if GameController.leftThumbstickButton{
+                if GameController.gamepad.leftThumbstickButton{
                     Image(systemName: "circle.circle.fill")
                         .foregroundColor(.white)
                         .font(.caption)
@@ -187,7 +191,7 @@ struct JoyStick: View {
                         .offset(x: CGFloat(powerResult(LR: true)))
                 }
             }else{
-                if GameController.rightThumbstickButton{
+                if GameController.gamepad.rightThumbstickButton{
                     Image(systemName: "circle.circle.fill")
                         .foregroundColor(.white)
                         .font(.caption)
@@ -206,9 +210,9 @@ struct JoyStick: View {
     
     func powerResult(LR : Bool) -> Float{
         if LR{
-            return sqrt(GameController.leftJoystic[0] * GameController.leftJoystic[0] + GameController.leftJoystic[1] * GameController.leftJoystic[1]) * -20.0
+            return sqrt(GameController.gamepad.leftJoystic.x * GameController.gamepad.leftJoystic.x + GameController.gamepad.leftJoystic.y * GameController.gamepad.leftJoystic.y) * -20.0
         }else{
-            return sqrt(GameController.rightJoystic[0] * GameController.rightJoystic[0] + GameController.rightJoystic[1] * GameController.rightJoystic[1]) * -20.0
+            return sqrt(GameController.gamepad.rightJoystic.x * GameController.gamepad.rightJoystic.x + GameController.gamepad.rightJoystic.y * GameController.gamepad.rightJoystic.y) * -20.0
         }
     }
 }

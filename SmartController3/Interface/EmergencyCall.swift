@@ -12,7 +12,7 @@ import CoreTelephony
 
 struct EmergencyCall: View {
     @State var nwcCallback : NWConnection?
-    @State var queue = DispatchQueue(label: "EmergencyCall", qos: .userInteractive , attributes: .concurrent)
+    @State var queue = DispatchQueue(label: "EmergencyCall", qos: .background , attributes: .concurrent)
     
     var body: some View {
         ZStack{

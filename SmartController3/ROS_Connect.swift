@@ -39,12 +39,11 @@ class ROSConnect : ObservableObject{
     @Published var log4ROSC : paramROSConnect
     @Published var counter = 0
     
-    private var speaker : NWConnection? //Handler
+    private var speaker : NWConnection?
     private var speakerForROS : NWConnection?
-    private var listener = try! NWListener(using: .udp, on: 64201) //Handler
+    private var listener = try! NWListener(using: .udp, on: 64201)
     
     private let udpQueue = DispatchQueue(label: "UDPQueue" , qos: .userInteractive , attributes: .concurrent)
-    
     
     private var nodeCheckTimer : Timer!
     private var getNetInfoHndlr = GetNetworkInfomationHandler()

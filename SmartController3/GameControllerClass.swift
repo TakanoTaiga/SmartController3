@@ -7,39 +7,63 @@
 
 import GameController
 import Network
+struct infoValue{
+    var connected : Bool
+    var battery : Float
+    var deviceName : String
+}
+struct joysticValue{
+    var x : Float
+    var y : Float
+}
+struct triggerValue{
+    var value : Float
+    var button : Bool
+}
+struct dpadValue{
+    var up : Bool
+    var down : Bool
+    var left : Bool
+    var right : Bool
+}
+struct buttonValue{
+    var x : Bool
+    var y : Bool
+    var a : Bool
+    var b : Bool
+}
+struct gamepadValue{
+    var info : infoValue
+    
+    var leftJoystic : joysticValue
+    var rightJoystic : joysticValue
+    
+    var leftTrigger : triggerValue
+    var rightTrigger : triggerValue
+    
+    var dpad : dpadValue
+    var button : buttonValue
+    
+    var leftThumbstickButton : Bool
+    var rightThumbstickButton : Bool
+    
+    var leftShoulderButton : Bool
+    var rightShoulderButton : Bool
+}
 
 class GameControllerClass : ObservableObject{
-    @Published var connected = false
-    @Published var battery : Float = 0
-    @Published var deviceName : String = ""
-    
-    @Published var leftJoystic : [Float] = [0,0]
-    @Published var rightJoystic : [Float] = [0,0]
-    
-    @Published var leftTrigger : Float = 1.0
-    @Published var rightTrigger : Float = 1.0
-    
-    @Published var dpadLeft : Bool = false
-    @Published var dpadUp : Bool = false
-    @Published var dpadRight : Bool = false
-    @Published var dpadDown : Bool = false
-    
-    @Published var buttonX : Bool = false
-    @Published var buttonY : Bool = false
-    @Published var buttonB : Bool = false
-    @Published var buttonA : Bool = false
-    
-    @Published var leftThumbstickButton : Bool = false
-    @Published var rightThumbstickButton : Bool = false
-    
-    @Published var optionButton :Bool = false
-    @Published var menuButton : Bool = false
-    
-    @Published var leftShoulderButton : Bool = false
-    @Published var rightShoulderButton : Bool = false
-    
-    @Published var leftTriggerButton : Bool = false
-    @Published var rightTriggerButton : Bool = false
+    @Published var gamepad = gamepadValue(
+        info: infoValue(connected: false, battery: 0, deviceName: ""),
+        leftJoystic: joysticValue(x: 0, y: 0),
+        rightJoystic: joysticValue(x: 0, y: 0),
+        leftTrigger: triggerValue(value: 0, button: false),
+        rightTrigger: triggerValue(value: 0, button: false),
+        dpad: dpadValue(up: false, down: false, left: false, right: false),
+        button: buttonValue(x: false, y: false, a: false, b: false),
+        leftThumbstickButton: false,
+        rightThumbstickButton: false,
+        leftShoulderButton: false,
+        rightShoulderButton: false)
     
     @Published var c1Button : Bool = false
     @Published var c2Button : Bool = false
@@ -61,12 +85,12 @@ class GameControllerClass : ObservableObject{
     }
     
     private func didConnectControllerHandler(_ notification: Notification){
-        self.connected = true
+        gamepad.info.connected = true
         let controller = notification.object as! GCController
         if let battery = controller.battery{
-            self.battery = battery.batteryLevel
+            gamepad.info.battery = battery.batteryLevel
         }
-        self.deviceName = controller.productCategory
+        gamepad.info.deviceName = controller.productCategory
         
         controller.extendedGamepad?.leftThumbstick.valueChangedHandler = { (button, xvalue, yvalue) in self.stick(1, xvalue, yvalue) }
         controller.extendedGamepad?.rightThumbstick.valueChangedHandler = { (button, xvalue, yvalue) in self.stick(2, xvalue, yvalue) }
@@ -100,29 +124,29 @@ class GameControllerClass : ObservableObject{
     }
     
     private func didDisconnectController(_ notification: Notification){
-        self.connected = false
-        self.battery = -1
-        self.deviceName = "N/A"
+        gamepad.info.connected = false
+        gamepad.info.battery = -1
+        gamepad.info.deviceName = "N/A"
     }
     
     private func stick(_ button: Int, _ xvalue: Float, _ yvalue: Float){
         if button == 1{
-            leftJoystic[0] = xvalue
-            leftJoystic[1] = yvalue
+            gamepad.leftJoystic.x = xvalue
+            gamepad.leftJoystic.y = yvalue
         }else if button == 2{
-            rightJoystic[0] = xvalue
-            rightJoystic[1] = yvalue
+            gamepad.rightJoystic.x = xvalue
+            gamepad.rightJoystic.y = yvalue
         }
     }
     
     private func trigger(_ trigger: Int, _ value: Float){
         switch trigger{
         case 1:
-            leftTrigger = 2.0 * value - 1.0
-            leftTrigger *= -1
+            gamepad.leftTrigger.value = 2.0 * value - 1.0
+            gamepad.leftTrigger.value *= -1
         case 2:
-            rightTrigger = 2.0 * value - 1.0
-            rightTrigger *= -1
+            gamepad.rightTrigger.value = 2.0 * value - 1.0
+            gamepad.rightTrigger.value *= -1
         default:
             NSLog("ERROR:GameControllerClass-trigger")
         }
@@ -131,37 +155,33 @@ class GameControllerClass : ObservableObject{
     private func button(_ button: Int, _ pressed: Bool){
         switch button {
         case 0:
-            dpadLeft = pressed
+            gamepad.dpad.left = pressed
         case 1:
-            dpadUp = pressed
+            gamepad.dpad.up = pressed
         case 2:
-            dpadRight = pressed
+            gamepad.dpad.right = pressed
         case 3:
-            dpadDown = pressed
+            gamepad.dpad.down = pressed
         case 4:
-            buttonX = pressed
+            gamepad.button.x = pressed
         case 5:
-            buttonY = pressed
+            gamepad.button.y = pressed
         case 6:
-            buttonB = pressed
+            gamepad.button.b = pressed
         case 7:
-            buttonA = pressed
-        case 8:
-            optionButton = pressed
-        case 9:
-            menuButton = pressed
+            gamepad.button.a = pressed
         case 10:
-            leftThumbstickButton = pressed
+            gamepad.leftThumbstickButton = pressed
         case 11:
-            rightThumbstickButton = pressed
+            gamepad.rightThumbstickButton = pressed
         case 12:
-            leftShoulderButton = pressed
+            gamepad.leftShoulderButton = pressed
         case 13:
-            rightShoulderButton = pressed
+            gamepad.rightShoulderButton = pressed
         case 14:
-            leftTriggerButton = pressed
+            gamepad.leftTrigger.button = pressed
         case 15:
-            rightTriggerButton = pressed
+            gamepad.rightTrigger.button = pressed
             
         default:
             NSLog("ERROR:GameControllerClass-button")
@@ -227,43 +247,43 @@ class GameControllerClass : ObservableObject{
     
     public func sendGameControllerStatus(force : Bool){
         var sendingItem : String = "GCINFO,"
-        sendingItem += "J:" + String(self.leftJoystic[0] * -1) + ":" + String(self.leftJoystic[1]) + ","
-        sendingItem += "T:" + String(self.leftTrigger) + ","
+        sendingItem += "J:" + String(gamepad.leftJoystic.x * -1) + ":" + String(gamepad.leftJoystic.x) + ","
+        sendingItem += "T:" + String(gamepad.leftTrigger.value) + ","
         
-        sendingItem += "J:" + String(self.rightJoystic[0] * -1) + ":" + String(self.rightJoystic[1]) + ","
-        sendingItem += "T:" + String(self.rightTrigger) + ","
+        sendingItem += "J:" + String(gamepad.rightJoystic.x * -1) + ":" + String(gamepad.rightJoystic.x) + ","
+        sendingItem += "T:" + String(gamepad.rightTrigger.value) + ","
         
-        if(self.dpadLeft){
+        if(gamepad.dpad.left){
             sendingItem += "T:1,"
-        }else if(self.dpadRight){
+        }else if(gamepad.dpad.right){
             sendingItem += "T:-1,"
         }else{
             sendingItem += "T:0,"
         }
         
-        if(self.dpadUp){
+        if(gamepad.dpad.up){
             sendingItem += "T:1,"
-        }else if(self.dpadDown){
+        }else if(gamepad.dpad.down){
             sendingItem += "T:-1,"
         }else{
             sendingItem += "T:0,"
         }
         
-        sendingItem += "B:" + self.Bool2String(bool: self.buttonA) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.buttonB) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.buttonX) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.buttonY) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.button.a) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.button.b) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.button.x) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.button.y) + ","
         
-        sendingItem += "B:" + self.Bool2String(bool: self.leftShoulderButton) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.rightShoulderButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.leftShoulderButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.rightShoulderButton) + ","
         
-        sendingItem += "B:" + self.Bool2String(bool: self.optionButton) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.menuButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: false) + ","
+        sendingItem += "B:" + self.Bool2String(bool: false) + ","
         
         sendingItem += "B:0,"
         
-        sendingItem += "B:" + self.Bool2String(bool: self.leftThumbstickButton) + ","
-        sendingItem += "B:" + self.Bool2String(bool: self.rightThumbstickButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.leftThumbstickButton) + ","
+        sendingItem += "B:" + self.Bool2String(bool: gamepad.rightThumbstickButton) + ","
         
         sendingItem += "B:0,"
         

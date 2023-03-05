@@ -52,19 +52,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FB7BEA2A28E068810054BCBB /* src */ = {
+		30957B4A29B4D4F800027928 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
 				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
 				30957B4629B4C68700027928 /* PeformanceView.swift */,
 				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
 				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		30957B4B29B4D51000027928 /* system */ = {
+			isa = PBXGroup;
+			children = (
 				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
 				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
 				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
+			);
+			name = system;
+			sourceTree = "<group>";
+		};
+		FB7BEA2A28E068810054BCBB /* src */ = {
+			isa = PBXGroup;
+			children = (
+				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
+				30957B4B29B4D51000027928 /* system */,
+				30957B4A29B4D4F800027928 /* Interface */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -330,7 +346,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationLandscapeLeft;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,7 +380,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationLandscapeLeft;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
