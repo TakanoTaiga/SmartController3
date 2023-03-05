@@ -1,8 +1,8 @@
 //
-//  DebugTerminal.swift
+//  PeformanceView.swift
 //  SmartController3
 //
-//  Created by 高野大河 on 2022/07/14.
+//  Created by 高野大河 on 2023/03/5.
 //
 
 import SwiftUI

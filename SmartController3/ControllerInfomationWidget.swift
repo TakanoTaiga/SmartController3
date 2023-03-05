@@ -212,3 +212,35 @@ struct JoyStick: View {
         }
     }
 }
+
+
+struct CircleProgressView: View {
+    var progress: Double
+    let symbol : String
+    var body: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .stroke(.gray, lineWidth: 7)
+                    .opacity(0.2)
+
+                if progress > 0 {
+                    Circle()
+                        .trim(from: 0.0, to: CGFloat(min(progress, 1.0))) // 線の長さを指定
+                        .stroke(.green, style: StrokeStyle(lineWidth: 7,lineCap: .round))
+                        .rotationEffect(.degrees(-90.0)) // 線を上から開始させる
+                }else{
+                    Circle()
+                        .trim(from: 0.0, to: CGFloat(min(progress * -1, 1.0))) // 線の長さを指定
+                        .stroke(.green, style: StrokeStyle(lineWidth: 7,lineCap: .round))
+                        .rotationEffect(.degrees(360.0 * progress - 90.0)) // 線を上から開始させる
+                }
+
+                Image(systemName: symbol)
+                    .foregroundColor(.gray)
+                    .font(.title)
+            }
+        }
+    }
+
+}

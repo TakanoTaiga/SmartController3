@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30957B4729B4C68700027928 /* PeformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30957B4629B4C68700027928 /* PeformanceView.swift */; };
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */; };
 		FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA2828E068670054BCBB /* SmartUI.swift */; };
@@ -15,15 +16,14 @@
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
 		FB8D25AF285D94BD000F0F35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */; };
 		FB8D25B6285D9502000F0F35 /* GameControllerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */; };
-		FB8D25B8285D9D9B000F0F35 /* DeviceInforWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */; };
 		FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */; };
 		FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */; };
 		FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */; };
-		FBA8BC3328A4B9C1006D4150 /* DebugTerminal.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */; };
 		FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDAACEA286FE76F004893BD /* NetworkHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30957B4629B4C68700027928 /* PeformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeformanceView.swift; sourceTree = "<group>"; };
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartController3.entitlements; sourceTree = "<group>"; };
 		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
@@ -34,11 +34,9 @@
 		FB8D25AB285D94BD000F0F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControllerClass.swift; sourceTree = "<group>"; };
-		FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInforWidget.swift; sourceTree = "<group>"; };
 		FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSInfomation.swift; sourceTree = "<group>"; };
 		FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfomationWidget.swift; sourceTree = "<group>"; };
 		FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROS_Connect.swift; sourceTree = "<group>"; };
-		FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DebugTerminal.swift; sourceTree = "<group>"; };
 		FBDAACEA286FE76F004893BD /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
 		FBFE9D9E28D55A7600C483DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,17 +55,16 @@
 		FB7BEA2A28E068810054BCBB /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
-				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
-				FBA8BC3228A4B9C1006D4150 /* DebugTerminal.swift */,
 				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
-				FB8D25B7285D9D9B000F0F35 /* DeviceInforWidget.swift */,
+				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
+				30957B4629B4C68700027928 /* PeformanceView.swift */,
+				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
-				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
+				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
+				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
 				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
 				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
-				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -183,8 +180,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBA8BC3328A4B9C1006D4150 /* DebugTerminal.swift in Sources */,
-				FB8D25B8285D9D9B000F0F35 /* DeviceInforWidget.swift in Sources */,
+				30957B4729B4C68700027928 /* PeformanceView.swift in Sources */,
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
