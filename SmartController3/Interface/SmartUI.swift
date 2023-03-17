@@ -2,19 +2,19 @@
 //  ROSView.swift
 //  SmartController3
 //
-//  Created by 高野大河 on 2022/08/20.
+//  Created by Taiga Takano on 2022/08/20.
 //
 
 import SwiftUI
 
 struct SmartUI: View {
-    @ObservedObject var ROSConnectHandler : ROSConnect
+    @ObservedObject var ROSConnectHandler : NodeConnection
     @ObservedObject var GCC : GameControllerClass
     
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(.gray)
+                .foregroundColor(.brown)
                 .opacity(0.1)
             
             VStack{
@@ -25,7 +25,7 @@ struct SmartUI: View {
                                 .frame(height: 50, alignment: .center)
                                 .foregroundColor(.black)
                                 .opacity(0.5)
-                            Text("\(ROSConnectHandler.log4ROSC.customButtonLabel1)")
+                            Text(ROSConnectHandler.smartUILabel.buttonA)
                                 .foregroundColor(.white)
                                 .bold()
                                 .font(.title3)
@@ -33,13 +33,12 @@ struct SmartUI: View {
                     }).simultaneousGesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged{_ in
-                                GCC.c1Button = true
+                                GCC.smartUIValue.buttonA = true
                             }
                             .onEnded{_ in
-                                GCC.c1Button = false
+                                GCC.smartUIValue.buttonA = false
                             }
                     )
-                    
                     
                     
                     Button(action: {}, label: {
@@ -48,7 +47,7 @@ struct SmartUI: View {
                                 .frame(height: 50, alignment: .center)
                                 .foregroundColor(.black)
                                 .opacity(0.5)
-                            Text("\(ROSConnectHandler.log4ROSC.customButtonLabel2)")
+                            Text(ROSConnectHandler.smartUILabel.buttonB)
                                 .foregroundColor(.white)
                                 .bold()
                                 .font(.title3)
@@ -56,46 +55,46 @@ struct SmartUI: View {
                     }).simultaneousGesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged{_ in
-                                GCC.c2Button = true
+                                GCC.smartUIValue.buttonB = true
                             }
                             .onEnded{_ in
-                                GCC.c2Button = false
+                                GCC.smartUIValue.buttonB = false
                             }
                     )
                 }
                 
                 Spacer()
-                Slider(value: $GCC.s1Slider ,in: 0...100 , step: 0.1)
-                Text("\(ROSConnectHandler.log4ROSC.customSliderLabel1):" + String(format: "%.1f", GCC.s1Slider))
+                Slider(value: $GCC.smartUIValue.slider ,in: 0...100 , step: 0.1)
+                Text(ROSConnectHandler.smartUILabel.slider + String(format: ":%.1f", GCC.smartUIValue.slider))
                     .bold()
                     .font(.title3)
                     .padding(.top , 20)
                     .gesture(DragGesture()
-                                .onEnded({ value in
-                                    if(abs(value.translation.width) > 150){
-                                        if (value.translation.width < 0 ) {
-                                            // swiped to left
-                                            if(GCC.s1Slider > 0){
-                                                GCC.s1Slider -= 1
-                                            }
-                                        } else if (value.translation.width > 0 ) {
-                                            // swiped to right
-                                            NSLog("swipe to right")
-                                            GCC.s1Slider += 1
-                                        }
-                                    }else{
-                                        if (value.translation.width < 0 ) {
-                                            // swiped to left
-                                            if(GCC.s1Slider > 0){
-                                                GCC.s1Slider -= 0.2
-                                            }
-                                        } else if (value.translation.width > 0 ) {
-                                            // swiped to right
-                                            NSLog("swipe to right")
-                                            GCC.s1Slider += 0.2
-                                        }
+                        .onEnded({ value in
+                            if(abs(value.translation.width) > 150){
+                                if (value.translation.width < 0 ) {
+                                    // swiped to left
+                                    if(GCC.smartUIValue.slider > 0){
+                                        GCC.smartUIValue.slider -= 1
                                     }
-                                }))
+                                } else if (value.translation.width > 0 ) {
+                                    // swiped to right
+                                    NSLog("swipe to right")
+                                    GCC.smartUIValue.slider += 1
+                                }
+                            }else{
+                                if (value.translation.width < 0 ) {
+                                    // swiped to left
+                                    if(GCC.smartUIValue.slider > 0){
+                                        GCC.smartUIValue.slider -= 0.2
+                                    }
+                                } else if (value.translation.width > 0 ) {
+                                    // swiped to right
+                                    NSLog("swipe to right")
+                                    GCC.smartUIValue.slider += 0.2
+                                }
+                            }
+                        }))
                 
                 Spacer()
             }

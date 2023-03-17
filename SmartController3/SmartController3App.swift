@@ -2,7 +2,7 @@
 //  SmartController3App.swift
 //  SmartController3
 //
-//  Created by 高野大河 on 2022/06/18.
+//  Created by Taiga Takano on 2022/06/18.
 //
 
 import SwiftUI

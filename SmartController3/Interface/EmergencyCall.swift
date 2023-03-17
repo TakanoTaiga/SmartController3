@@ -2,7 +2,7 @@
 //  EmergencyCall.swift
 //  SmartController3
 //
-//  Created by 高野大河 on 2022/09/17.
+//  Created by Taiga Takano on 2022/09/17.
 //
 
 import SwiftUI
@@ -39,7 +39,6 @@ struct EmergencyCall: View {
                     .fontWeight(.bold)
                     .foregroundColor(.black)
             }
-            
         }
     }
     

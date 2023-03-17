@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		30957B4729B4C68700027928 /* PeformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30957B4629B4C68700027928 /* PeformanceView.swift */; };
+		302DBC0629B8D29B00238246 /* NodeConnectionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */; };
+		302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */; };
+		302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC1C29BB680100238246 /* NodeStatus.swift */; };
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */; };
 		FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA2828E068670054BCBB /* SmartUI.swift */; };
@@ -15,15 +17,16 @@
 		FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A9285D94BC000F0F35 /* ContentView.swift */; };
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
 		FB8D25AF285D94BD000F0F35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */; };
-		FB8D25B6285D9502000F0F35 /* GameControllerClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */; };
+		FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B5285D9502000F0F35 /* GamepadServiceMain.swift */; };
 		FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */; };
 		FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */; };
-		FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */; };
-		FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDAACEA286FE76F004893BD /* NetworkHandler.swift */; };
+		FB8D25BE285EAFB3000F0F35 /* NodeConnectionMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		30957B4629B4C68700027928 /* PeformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeformanceView.swift; sourceTree = "<group>"; };
+		302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeConnectionUtil.swift; sourceTree = "<group>"; };
+		302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadServiceUtil.swift; sourceTree = "<group>"; };
+		302DBC1C29BB680100238246 /* NodeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStatus.swift; sourceTree = "<group>"; };
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartController3.entitlements; sourceTree = "<group>"; };
 		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
@@ -33,11 +36,10 @@
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FB8D25AB285D94BD000F0F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameControllerClass.swift; sourceTree = "<group>"; };
+		FB8D25B5285D9502000F0F35 /* GamepadServiceMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadServiceMain.swift; sourceTree = "<group>"; };
 		FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSInfomation.swift; sourceTree = "<group>"; };
 		FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfomationWidget.swift; sourceTree = "<group>"; };
-		FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROS_Connect.swift; sourceTree = "<group>"; };
-		FBDAACEA286FE76F004893BD /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeConnectionMain.swift; sourceTree = "<group>"; };
 		FBFE9D9E28D55A7600C483DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,34 +54,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		302DBC0429B8D27900238246 /* NodeConnection */ = {
+			isa = PBXGroup;
+			children = (
+				FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */,
+				302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */,
+			);
+			name = NodeConnection;
+			sourceTree = "<group>";
+		};
 		30957B4A29B4D4F800027928 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
 				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
-				30957B4629B4C68700027928 /* PeformanceView.swift */,
 				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
 				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
+				302DBC1C29BB680100238246 /* NodeStatus.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
 		};
-		30957B4B29B4D51000027928 /* system */ = {
+		30957B4B29B4D51000027928 /* GamepadService */ = {
 			isa = PBXGroup;
 			children = (
-				FB8D25B5285D9502000F0F35 /* GameControllerClass.swift */,
-				FB8D25BD285EAFB3000F0F35 /* ROS_Connect.swift */,
-				FBDAACEA286FE76F004893BD /* NetworkHandler.swift */,
+				FB8D25B5285D9502000F0F35 /* GamepadServiceMain.swift */,
+				302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */,
 			);
-			name = system;
+			name = GamepadService;
 			sourceTree = "<group>";
 		};
 		FB7BEA2A28E068810054BCBB /* src */ = {
 			isa = PBXGroup;
 			children = (
 				FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */,
-				30957B4B29B4D51000027928 /* system */,
+				302DBC0429B8D27900238246 /* NodeConnection */,
+				30957B4B29B4D51000027928 /* GamepadService */,
 				30957B4A29B4D4F800027928 /* Interface */,
 			);
 			name = src;
@@ -196,16 +207,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30957B4729B4C68700027928 /* PeformanceView.swift in Sources */,
+				302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */,
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
-				FB8D25B6285D9502000F0F35 /* GameControllerClass.swift in Sources */,
+				FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */,
 				FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */,
 				FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */,
 				FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */,
-				FB8D25BE285EAFB3000F0F35 /* ROS_Connect.swift in Sources */,
-				FBDAACEB286FE76F004893BD /* NetworkHandler.swift in Sources */,
+				302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */,
+				FB8D25BE285EAFB3000F0F35 /* NodeConnectionMain.swift in Sources */,
+				302DBC0629B8D29B00238246 /* NodeConnectionUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,7 +263,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -310,6 +322,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 2;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -334,7 +347,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.31;
+				CURRENT_PROJECT_VERSION = 2023.3.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = 23W3KFU297;
 				ENABLE_PREVIEWS = YES;
@@ -351,7 +364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -368,7 +381,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.31;
+				CURRENT_PROJECT_VERSION = 2023.3.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = 23W3KFU297;
 				ENABLE_PREVIEWS = YES;
@@ -385,7 +398,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

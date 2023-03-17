@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  SmartController3
 //
-//  Created by 高野大河 on 2022/06/18.
+//  Created by Taiga Takano on 2022/06/18.
 //
 
 import SwiftUI
@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var controllerClassObject = GameControllerClass()
-    @ObservedObject var ROSConnectHandler = ROSConnect()
+    @ObservedObject var nodeConnectionClassObject = NodeConnection()
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .phone {
             // for iPhone code
@@ -19,15 +19,13 @@ struct ContentView: View {
                 
                 VStack{
                     Spacer()
-                    PeformanceView(GCC: controllerClassObject , ROSConnectHandler: ROSConnectHandler)
-                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 5, alignment: .center)
+                    NodeStatus(nodeConnectionClassObject: nodeConnectionClassObject , gameControllerClass: controllerClassObject)
+                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 7, alignment: .center)
                     
                     Spacer()
                     
-                    SmartUI(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
-                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.5, alignment: .center)
-                    
-                    Spacer()
+                    SmartUI(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
+                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.4, alignment: .center)
                 }
                 
                 
@@ -43,23 +41,18 @@ struct ContentView: View {
                         EmergencyCall()
                             .frame(width: UIScreen.main.bounds.height / 2.3, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
                             .padding(.all , 5)
-                        Spacer()
                     }
                     
-                    ROSInfomation(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
+                    ROSInfomation(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
                         .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
                 }
             }
-
+            
         } else if UIDevice.current.userInterfaceIdiom == .pad {
-           // for ipad code
+            // for ipad code
             HStack {
                 VStack{
-                    PeformanceView(GCC: controllerClassObject , ROSConnectHandler: ROSConnectHandler)
-                        .frame(height: 100)
-                        .padding(.all)
-                    
-                    SmartUI(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
+                    SmartUI(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
                         .padding(.all)
                 }
                 
@@ -70,7 +63,7 @@ struct ContentView: View {
                         EmergencyCall()
                             .padding(.all)
                     }
-                    ROSInfomation(ROSConnectHandler: ROSConnectHandler , GCC: controllerClassObject)
+                    ROSInfomation(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
                         .padding(.all)
                 }
             }
