@@ -40,6 +40,7 @@ struct ResponseData{
 struct GamepadResponseData{
     var header : UInt8 = 0
     var gamepadData = GamepadValue()
+    var smartUIData = SmartUIValue()
 }
 
 struct IpVectorData{

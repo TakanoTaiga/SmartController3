@@ -133,8 +133,8 @@ class GameControllerClass : ObservableObject{
         var sendItem = GamepadResponseData()
         sendItem.header = NodeConnectionKey.gamepadValueRequest.rawValue
         sendItem.gamepadData = gamepadValue
+        sendItem.smartUIData = smartUIValue
         let sendData = Data(bytes: &sendItem, count: MemoryLayout<GamepadResponseData>.size)
-//        let smartUIValueData = Data(bytes: &smartUIValue, count: MemoryLayout<SmartUIValue>.size)
         
         self.speaker!.send(content: sendData, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
             if (NWError != nil) {
