@@ -70,6 +70,32 @@ func logNodeConnectionKey(key : UInt8){
 
 func uint8ToString(char: UInt8) -> String{
     switch char {
+    case 32:
+        return " "
+    case 33:
+        return "!"
+    case 35:
+        return "#"
+    case 36:
+        return "$"
+    case 39:
+        return "'"
+    case 40:
+        return "("
+    case 41:
+        return ")"
+    case 42:
+        return "*"
+    case 43:
+        return "+"
+    case 44:
+        return ","
+    case 45:
+        return "-"
+    case 46:
+        return "."
+    case 47:
+        return "/"
     case 48:
         return "0"
     case 49:
@@ -90,6 +116,20 @@ func uint8ToString(char: UInt8) -> String{
         return "8"
     case 57:
         return "9"
+    case 58:
+        return ":"
+    case 59:
+        return ";"
+    case 60:
+        return "<"
+    case 61:
+        return "="
+    case 62:
+        return ">"
+    case 63:
+        return "?"
+    case 64:
+        return "@"
     case 65:
         return "A"
     case 66:
@@ -142,6 +182,16 @@ func uint8ToString(char: UInt8) -> String{
         return "Y"
     case 90:
         return "Z"
+    case 91:
+        return "["
+    case 93:
+        return "]"
+    case 94:
+        return "^"
+    case 95:
+        return "_"
+    case 96:
+        return "`"
     case 97:
         return "a"
     case 98:
@@ -194,48 +244,15 @@ func uint8ToString(char: UInt8) -> String{
         return "y"
     case 122:
         return "z"
+    case 123:
+        return "{"
+    case 124:
+        return "|"
+    case 125:
+        return "}"
+    case 126:
+        return "~"
     default:
         return ""
     }
 }
-
-
-//                    if rcvDataString.contains("HOST-NAME"){
-//                        // get host name
-//                        DispatchQueue.main.async {
-//                            self.nodeConnectionParameter.state = ServiceState.ready
-//                            self.nodeConnectionParameter.hostName = String(rcvDataString.dropFirst("HOST-NAME".count))
-//                            self.send(item: "GET-NODE-PARAM")
-//                        }
-//                    }
-//
-//                    if rcvDataString.contains("NODE-NAME"){
-//                        // get node name
-//                        DispatchQueue.main.async {
-//                            self.nodeConnectionParameter.state = ServiceState.ready
-//                            self.nodeConnectionParameter.nodeName = String(rcvDataString.dropFirst("NODE-NAME".count))
-//                        }
-//                    }
-
-//while(self.nodeConnector?.state != NWConnection.State.ready){} //dead lock ??
-//self.send(item: "GET-HOST-NAME")
-
-
-//    private func send(item : String){
-//        if(self.nodeConnector?.state != NWConnection.State.ready){
-//            NSLog("speaker state is not ready")
-//            return
-//        }
-//        var sendData = item.data(using: .utf8)!
-//        var testdata = GamepadJoysticValue()
-//        testdata.x = 12.1
-//        testdata.y = 0.124
-//        testdata.thumbstickButton = false
-//        sendData = Data(bytes: &testdata, count: MemoryLayout<GamepadJoysticValue>.size) + sendData
-//        self.nodeConnector!.send(content: sendData,
-//                           completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-//            if (NWError != nil) {
-//                NSLog("ROSC:Send:NWError:\(NWError!)")
-//            }
-//        })))
-//    }
