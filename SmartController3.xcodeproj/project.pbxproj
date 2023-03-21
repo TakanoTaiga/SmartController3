@@ -18,7 +18,7 @@
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
 		FB8D25AF285D94BD000F0F35 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */; };
 		FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B5285D9502000F0F35 /* GamepadServiceMain.swift */; };
-		FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */; };
+		FB8D25BA285DB2C5000F0F35 /* SystemInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25B9285DB2C5000F0F35 /* SystemInfo.swift */; };
 		FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */; };
 		FB8D25BE285EAFB3000F0F35 /* NodeConnectionMain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */; };
 /* End PBXBuildFile section */
@@ -37,7 +37,7 @@
 		FB8D25AB285D94BD000F0F35 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB8D25AE285D94BD000F0F35 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FB8D25B5285D9502000F0F35 /* GamepadServiceMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadServiceMain.swift; sourceTree = "<group>"; };
-		FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROSInfomation.swift; sourceTree = "<group>"; };
+		FB8D25B9285DB2C5000F0F35 /* SystemInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemInfo.swift; sourceTree = "<group>"; };
 		FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfomationWidget.swift; sourceTree = "<group>"; };
 		FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeConnectionMain.swift; sourceTree = "<group>"; };
 		FBFE9D9E28D55A7600C483DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -70,7 +70,7 @@
 				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
 				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
-				FB8D25B9285DB2C5000F0F35 /* ROSInfomation.swift */,
+				FB8D25B9285DB2C5000F0F35 /* SystemInfo.swift */,
 				302DBC1C29BB680100238246 /* NodeStatus.swift */,
 			);
 			path = Interface;
@@ -212,7 +212,7 @@
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
 				FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */,
-				FB8D25BA285DB2C5000F0F35 /* ROSInfomation.swift in Sources */,
+				FB8D25BA285DB2C5000F0F35 /* SystemInfo.swift in Sources */,
 				FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */,
 				FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */,
 				302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */,

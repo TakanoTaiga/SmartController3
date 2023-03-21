@@ -12,6 +12,7 @@ class NodeConnection : ObservableObject{
     @Published private (set) public var nodeConnectionParameter = NodeConnectionParameter()
     @Published private (set) public var nodeInfomation = NodeInfomation()
     @Published private (set) public var smartUILabel = SmartUILabel()
+    @Published private (set) public var consoleOut : [String] = ["System Start"]
     
     private var nodeConnector : NWConnection?
     private var nodeSearcher : NWConnection?
@@ -31,6 +32,7 @@ class NodeConnection : ObservableObject{
         }
         
         var sendItem = NodeConnectionKey.searchNode.rawValue
+        self.consoleOut.append(logNodeConnectionKey(key: NodeConnectionKey.searchNode))
         let sendData = Data(bytes: &sendItem, count: MemoryLayout<UInt8>.size)
         self.nodeSearcher!.send(content: sendData,
                                  completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
@@ -63,6 +65,7 @@ class NodeConnection : ObservableObject{
         
         self.nodeConnectionParameter.state = ServiceState.preparing
         var sendItem = NodeConnectionKey.pingRequest.rawValue
+        self.consoleOut.append(logNodeConnectionKey(key: NodeConnectionKey.pingRequest))
         let sendData = Data(bytes: &sendItem, count: MemoryLayout<UInt8>.size)
         self.SendnNodeConnector(data: sendData)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1){
@@ -81,6 +84,7 @@ class NodeConnection : ObservableObject{
         var sendItem = NodeConnectionKey.nodeInfoRequest.rawValue
         let sendData = Data(bytes: &sendItem, count: MemoryLayout<UInt8>.size)
         self.SendnNodeConnector(data: sendData)
+        self.consoleOut.append(logNodeConnectionKey(key: NodeConnectionKey.nodeInfoRequest))
     }
     
     
@@ -93,7 +97,10 @@ class NodeConnection : ObservableObject{
             newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
                 if let data = data{
                     let responseData = data.withUnsafeBytes{ $0.load( as: ResponseData.self ) } as ResponseData
-                    logNodeConnectionKey(key: responseData.header)
+                    
+                    DispatchQueue.main.async{
+                        self.consoleOut.append(logNodeConnectionKeyRaw(keyRaw: responseData.header))
+                    }
                     
                     if(responseData.header == NodeConnectionKey.ipResponse.rawValue){
                         let ipAddr = data.withUnsafeBytes{ $0.load( as: IpVectorData.self ) } as IpVectorData

@@ -31,6 +31,7 @@ enum NodeConnectionKey: UInt8{
     case nodeInfoRequest = 23
     case nodeInfoResponse = 25
     case gamepadValueRequest = 12
+    case unknown = 0
 }
 
 struct ResponseData{
@@ -56,16 +57,33 @@ struct NodeInfoData{
     var hostname : String = ""
 }
 
-func logNodeConnectionKey(key : UInt8){
-    if key == NodeConnectionKey.pingResponse.rawValue {
-        NSLog("Key:pingResponse")
-    }else if key == NodeConnectionKey.nodeInfoResponse.rawValue{
-        NSLog("Key:nodeInfoResponse")
-    }else if key == NodeConnectionKey.ipResponse.rawValue{
-        NSLog("Key:ipResponse")
-    }else{
-        NSLog("Unknown key:\(key)")
+func logNodeConnectionKey(key : NodeConnectionKey) -> String{
+    NSLog("\(key)")
+    return "\(key)"
+}
+
+func logNodeConnectionKeyRaw(keyRaw : UInt8) -> String{
+    var key = NodeConnectionKey.unknown
+    switch keyRaw{
+    case NodeConnectionKey.searchNode.rawValue:
+        key = NodeConnectionKey.searchNode
+    case NodeConnectionKey.pingRequest.rawValue:
+        key = NodeConnectionKey.pingRequest
+    case NodeConnectionKey.pingResponse.rawValue:
+        key = NodeConnectionKey.pingResponse
+    case NodeConnectionKey.ipResponse.rawValue:
+        key = NodeConnectionKey.ipResponse
+    case NodeConnectionKey.nodeInfoRequest.rawValue:
+        key = NodeConnectionKey.nodeInfoRequest
+    case NodeConnectionKey.nodeInfoResponse.rawValue:
+        key = NodeConnectionKey.nodeInfoResponse
+    case NodeConnectionKey.gamepadValueRequest.rawValue:
+        key = NodeConnectionKey.gamepadValueRequest
+    default:
+        key = NodeConnectionKey.unknown
     }
+    NSLog("\(key)")
+    return "\(key)"
 }
 
 func uint8ToString(char: UInt8) -> String{

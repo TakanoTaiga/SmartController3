@@ -43,7 +43,7 @@ struct ContentView: View {
                             .padding(.all , 5)
                     }
                     
-                    ROSInfomation(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
+                    SystemInfo(NodeConnectionClassObject: nodeConnectionClassObject)
                         .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
                 }
             }
@@ -63,7 +63,7 @@ struct ContentView: View {
                         EmergencyCall()
                             .padding(.all)
                     }
-                    ROSInfomation(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
+                    SystemInfo(NodeConnectionClassObject: nodeConnectionClassObject)
                         .padding(.all)
                 }
             }
