@@ -10,9 +10,10 @@
 		302DBC0629B8D29B00238246 /* NodeConnectionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */; };
 		302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */; };
 		302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC1C29BB680100238246 /* NodeStatus.swift */; };
+		DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */; };
+		DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */; };
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */; };
-		FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA2828E068670054BCBB /* SmartUI.swift */; };
 		FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */; };
 		FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A9285D94BC000F0F35 /* ContentView.swift */; };
 		FB8D25AC285D94BD000F0F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB8D25AB285D94BD000F0F35 /* Assets.xcassets */; };
@@ -27,10 +28,11 @@
 		302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeConnectionUtil.swift; sourceTree = "<group>"; };
 		302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadServiceUtil.swift; sourceTree = "<group>"; };
 		302DBC1C29BB680100238246 /* NodeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStatus.swift; sourceTree = "<group>"; };
+		DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormat.swift; sourceTree = "<group>"; };
+		DF781ADE2A90B6A40018CCA5 /* SmartController3.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = SmartController3.entitlements; path = SmartController3/SmartController3.entitlements; sourceTree = "<group>"; };
+		DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uint8ToString.swift; sourceTree = "<group>"; };
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
-		FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartController3.entitlements; sourceTree = "<group>"; };
 		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
-		FB7BEA2828E068670054BCBB /* SmartUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmartUI.swift; sourceTree = "<group>"; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartController3App.swift; sourceTree = "<group>"; };
 		FB8D25A9285D94BC000F0F35 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,8 @@
 			children = (
 				FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */,
 				302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */,
+				DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */,
+				DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */,
 			);
 			name = NodeConnection;
 			sourceTree = "<group>";
@@ -67,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				FB8D25A9285D94BC000F0F35 /* ContentView.swift */,
-				FB7BEA2828E068670054BCBB /* SmartUI.swift */,
 				FB8D25BB285DEABE000F0F35 /* ControllerInfomationWidget.swift */,
 				FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */,
 				FB8D25B9285DB2C5000F0F35 /* SystemInfo.swift */,
@@ -99,6 +102,7 @@
 		FB8D259B285D94BC000F0F35 = {
 			isa = PBXGroup;
 			children = (
+				DF781ADE2A90B6A40018CCA5 /* SmartController3.entitlements */,
 				FB8D25A6285D94BC000F0F35 /* SmartController3 */,
 				FB8D25A5285D94BC000F0F35 /* Products */,
 			);
@@ -116,7 +120,6 @@
 			isa = PBXGroup;
 			children = (
 				FB7BEA2A28E068810054BCBB /* src */,
-				FB7BEA0A28D561AC0054BCBB /* SmartController3.entitlements */,
 				FBFE9D9E28D55A7600C483DE /* Info.plist */,
 				FB8D25AB285D94BD000F0F35 /* Assets.xcassets */,
 				FB787E8A28AE7E1E0058F548 /* icons */,
@@ -209,12 +212,13 @@
 			files = (
 				302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */,
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
+				DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */,
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
+				DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
 				FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */,
 				FB8D25BA285DB2C5000F0F35 /* SystemInfo.swift in Sources */,
 				FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */,
-				FB7BEA2928E068670054BCBB /* SmartUI.swift in Sources */,
 				302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */,
 				FB8D25BE285EAFB3000F0F35 /* NodeConnectionMain.swift in Sources */,
 				302DBC0629B8D29B00238246 /* NodeConnectionUtil.swift in Sources */,
@@ -346,27 +350,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.3.19;
+				CURRENT_PROJECT_VERSION = 2023.7.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
-				DEVELOPMENT_TEAM = 23W3KFU297;
+				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartController3/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Use search ros node";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Multicast uses the local network to connect with other devices around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationLandscapeLeft;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
+				MARKETING_VERSION = 4.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -380,27 +386,29 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.3.19;
+				CURRENT_PROJECT_VERSION = 2023.7.2;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
-				DEVELOPMENT_TEAM = 23W3KFU297;
+				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartController3/Info.plist;
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Use search ros node";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Multicast uses the local network to connect with other devices around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationLandscapeLeft;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.5.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sc3.connectROS;
+				MARKETING_VERSION = 4.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

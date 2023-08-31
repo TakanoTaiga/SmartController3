@@ -9,64 +9,43 @@ import SwiftUI
 
 
 struct ContentView: View {
-    @ObservedObject var controllerClassObject = GameControllerClass()
     @ObservedObject var nodeConnectionClassObject = NodeConnection()
+    
+    @State private var flag = true
     var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            // for iPhone code
-            HStack {
-                Spacer()
-                
-                VStack{
-                    Spacer()
-                    NodeStatus(nodeConnectionClassObject: nodeConnectionClassObject , gameControllerClass: controllerClassObject)
-                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 7, alignment: .center)
-                    
-                    Spacer()
-                    
-                    SmartUI(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
-                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 1.4, alignment: .center)
-                }
-                
-                
-                Spacer()
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        ControllerInfomationWidget(GameController: controllerClassObject)
-                            .frame(width: UIScreen.main.bounds.height / 2.3, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
-                            .foregroundColor(.gray)
-                        Spacer()
-                        EmergencyCall()
-                            .frame(width: UIScreen.main.bounds.height / 2.3, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
-                            .padding(.all , 5)
-                    }
-                    
-                    SystemInfo(NodeConnectionClassObject: nodeConnectionClassObject)
-                        .frame(width: UIScreen.main.bounds.height / 1.1, height: UIScreen.main.bounds.height / 2.3, alignment: .center)
-                }
-            }
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [.blue.opacity(0.2), .green.opacity(0.3)]), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
             
-        } else if UIDevice.current.userInterfaceIdiom == .pad {
-            // for ipad code
-            HStack {
-                VStack{
-                    SmartUI(ROSConnectHandler: nodeConnectionClassObject , GCC: controllerClassObject)
-                        .padding(.all)
-                }
+            VStack {
+                NodeStatus(nodeConnectionClassObject: nodeConnectionClassObject)
+                    .padding(.horizontal)
                 
-                VStack {
-                    HStack {
-                        ControllerInfomationWidget(GameController: controllerClassObject)
-                            .padding(.all)
-                        EmergencyCall()
-                            .padding(.all)
+                ScrollView(showsIndicators: false){
+                    VStack{
+                        ControllerInfomationWidget(nodeConnectionClass: nodeConnectionClassObject)
+                            .padding(.bottom)
+                        SystemInfo(NodeConnectionClassObject: nodeConnectionClassObject)
+                            .frame(height: 200)
+                            .padding(.bottom)
+                        
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20)
+                                .foregroundStyle(.quaternary)
+                            VStack {
+                                Toggle(!flag ? "50" : "", isOn: $flag)
+                                    .padding(.all)
+                                Spacer()
+                            }
+                        }
+                            .frame(height: !flag ? 50 : 200)
+                            .padding(.bottom)
+                            .animation(.easeInOut, value: flag)
                     }
-                    SystemInfo(NodeConnectionClassObject: nodeConnectionClassObject)
-                        .padding(.all)
                 }
+                .padding([.leading, .bottom, .trailing])
             }
+            .ignoresSafeArea(edges: [.bottom])
         }
     }
 }

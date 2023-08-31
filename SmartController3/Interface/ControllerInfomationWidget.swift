@@ -8,24 +8,22 @@
 import SwiftUI
 
 struct ControllerInfomationWidget: View {
-    @ObservedObject var GameController : GameControllerClass
+    @ObservedObject var nodeConnectionClass : NodeConnection
     
     var body: some View {
-        if GameController.info.connected {
+        if nodeConnectionClass.info.connected {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .foregroundColor(.brown)
-                    .opacity(0.1)
+                    .foregroundStyle(.quaternary)
                 
                 HStack {
-                    VStack {
-                        if GameController.gamepadValue.leftJoystic.x != 0{
-                            JoyStick(GameController: GameController , LR: true)
-                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.gamepadValue.leftJoystic.x,
-                                                                                  y: GameController.gamepadValue.leftJoystic.y))))
+                        if nodeConnectionClass.gamepadValue.leftJoystic.x != 0{
+                            JoyStick(nodeConnectionClass: nodeConnectionClass , LR: true)
+                                .rotationEffect(Angle(degrees: Double(atan_custom(x: nodeConnectionClass.gamepadValue.leftJoystic.x,
+                                                                                  y: nodeConnectionClass.gamepadValue.leftJoystic.y))))
                                 .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                         }else{
-                            if GameController.gamepadValue.leftJoystic.thumbstickButton {
+                            if nodeConnectionClass.gamepadValue.leftJoystic.thumbstickButton {
                                 ZStack {
                                     Circle()
                                         .frame(width: 70, height: 70, alignment: .center)
@@ -52,13 +50,13 @@ struct ControllerInfomationWidget: View {
                             }
                         }
                         
-                        if GameController.gamepadValue.rightJoystic.x != 0{
-                            JoyStick(GameController: GameController , LR: false)
-                                .rotationEffect(Angle(degrees: Double(atan_custom(x: GameController.gamepadValue.rightJoystic.x,
-                                                                                  y: GameController.gamepadValue.rightJoystic.y))))
+                        if nodeConnectionClass.gamepadValue.rightJoystic.x != 0{
+                            JoyStick(nodeConnectionClass: nodeConnectionClass , LR: false)
+                                .rotationEffect(Angle(degrees: Double(atan_custom(x: nodeConnectionClass.gamepadValue.rightJoystic.x,
+                                                                                  y: nodeConnectionClass.gamepadValue.rightJoystic.y))))
                                 .rotation3DEffect(.degrees(180), axis: (x: 0.0, y: 1.0, z: 0.0))
                         }else{
-                            if GameController.gamepadValue.rightJoystic.thumbstickButton {
+                            if nodeConnectionClass.gamepadValue.rightJoystic.thumbstickButton {
                                 ZStack {
                                     Circle()
                                         .frame(width: 70, height: 70, alignment: .center)
@@ -83,63 +81,51 @@ struct ControllerInfomationWidget: View {
                                     
                                 }
                             }
+                    }
+                    
+                    ZStack {
+                        Circle()
+                            .frame(width: 70, height: 70, alignment: .center)
+                            .foregroundColor(.black)
+                            .opacity(0.5)
+                        
+                        Image(systemName: "circle.grid.cross")
+                            .foregroundColor(.white)
+                            .font(.title)
+                        
+                        if nodeConnectionClass.gamepadValue.button.y{
+                            Image(systemName: "circle.grid.cross.up.filled")
+                                .foregroundColor(.white)
+                                .font(.title)
+                        }
+                        if nodeConnectionClass.gamepadValue.button.x{
+                            Image(systemName: "circle.grid.cross.left.filled")
+                                .foregroundColor(.white)
+                                .font(.title)
+                        }
+                        if nodeConnectionClass.gamepadValue.button.a{
+                            Image(systemName: "circle.grid.cross.down.filled")
+                                .foregroundColor(.white)
+                                .font(.title)
+                        }
+                        if nodeConnectionClass.gamepadValue.button.b{
+                            Image(systemName: "circle.grid.cross.right.filled")
+                                .foregroundColor(.white)
+                                .font(.title)
                         }
                     }
                     
                     VStack{
-                        if GameController.info.deviceName.contains("Xbox") {
-                            CircleProgressView(progress: Double(GameController.info.battery) , symbol: "logo.xbox")
-                                .frame(width: UIScreen.main.bounds.height / 6,
-                                       height: UIScreen.main.bounds.height / 6,
-                                       alignment: .center)
-                        }else{
-                            CircleProgressView(progress: Double(GameController.info.battery) , symbol: "gamecontroller")
-                                .frame(width: UIScreen.main.bounds.height / 6,
-                                       height: UIScreen.main.bounds.height / 6,
-                                       alignment: .center)
-                        }
-                        
-                        ZStack {
-                            Circle()
+                        if nodeConnectionClass.info.deviceName.contains("Xbox") {
+                            CircleProgressView(progress: Double(nodeConnectionClass.info.battery) , symbol: "logo.xbox")
                                 .frame(width: 70, height: 70, alignment: .center)
-                                .foregroundColor(.black)
-                                .opacity(0.5)
-                            
-                            Image(systemName: "circle.grid.cross")
-                                .foregroundColor(.white)
-                                .font(.title)
-                            
-                            if GameController.gamepadValue.button.y{
-                                Image(systemName: "circle.grid.cross.up.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            if GameController.gamepadValue.button.x{
-                                Image(systemName: "circle.grid.cross.left.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            if GameController.gamepadValue.button.a{
-                                Image(systemName: "circle.grid.cross.down.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            if GameController.gamepadValue.button.b{
-                                Image(systemName: "circle.grid.cross.right.filled")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
+                        }else{
+                            CircleProgressView(progress: Double(nodeConnectionClass.info.battery) , symbol: "gamecontroller")
+                                .frame(width: 70, height: 70, alignment: .center)
                         }
                     }
                 }
-            }
-        }else{
-            ZStack{
-                RoundedRectangle(cornerRadius: 20)
-                    .foregroundColor(.brown)
-                    .opacity(0.1)
-                ProgressView()
-                    .scaleEffect(1.5)
+                    .padding(.all)
             }
         }
     }
@@ -160,7 +146,7 @@ struct ControllerInfomationWidget: View {
 }
 
 struct JoyStick: View {
-    @ObservedObject var GameController : GameControllerClass
+    @ObservedObject var nodeConnectionClass : NodeConnection
     @State var LR : Bool
     
     var body: some View{
@@ -171,7 +157,7 @@ struct JoyStick: View {
                 .opacity(0.5)
             
             if LR{
-                if GameController.gamepadValue.leftJoystic.thumbstickButton{
+                if nodeConnectionClass.gamepadValue.leftJoystic.thumbstickButton{
                     Image(systemName: "circle.circle.fill")
                         .foregroundColor(.white)
                         .font(.caption)
@@ -183,7 +169,7 @@ struct JoyStick: View {
                         .offset(x: CGFloat(powerResult(LR: true)))
                 }
             }else{
-                if GameController.gamepadValue.rightJoystic.thumbstickButton{
+                if nodeConnectionClass.gamepadValue.rightJoystic.thumbstickButton{
                     Image(systemName: "circle.circle.fill")
                         .foregroundColor(.white)
                         .font(.caption)
@@ -200,9 +186,9 @@ struct JoyStick: View {
     
     func powerResult(LR : Bool) -> Float{
         if LR{
-            return sqrt(GameController.gamepadValue.leftJoystic.x * GameController.gamepadValue.leftJoystic.x + GameController.gamepadValue.leftJoystic.y * GameController.gamepadValue.leftJoystic.y) * -20.0
+            return sqrt(nodeConnectionClass.gamepadValue.leftJoystic.x * nodeConnectionClass.gamepadValue.leftJoystic.x + nodeConnectionClass.gamepadValue.leftJoystic.y * nodeConnectionClass.gamepadValue.leftJoystic.y) * -20.0
         }else{
-            return sqrt(GameController.gamepadValue.rightJoystic.x * GameController.gamepadValue.rightJoystic.x + GameController.gamepadValue.rightJoystic.y * GameController.gamepadValue.rightJoystic.y) * -20.0
+            return sqrt(nodeConnectionClass.gamepadValue.rightJoystic.x * nodeConnectionClass.gamepadValue.rightJoystic.x + nodeConnectionClass.gamepadValue.rightJoystic.y * nodeConnectionClass.gamepadValue.rightJoystic.y) * -20.0
         }
     }
 }

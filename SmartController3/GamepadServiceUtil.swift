@@ -9,18 +9,18 @@ import Foundation
 
 struct GamepadInfoValue{
     var connected : Bool = false
-    var battery : Float = 0
+    var battery : Float32 = 0
     var deviceName : String = ""
 }
 
 struct GamepadJoysticValue{
-    var x : Float = 0
-    var y : Float = 0
+    var x : Float32 = 0
+    var y : Float32 = 0
     var thumbstickButton : Bool = false
 }
 
 struct GamepadTriggerValue{
-    var value : Float = 0
+    var value : Float32 = 0
     var button : Bool = false
 }
 
@@ -60,6 +60,7 @@ struct GamepadValue{
     var rightShoulderButton = false
 }
 
+// support end
 struct SmartUILabel{
     var buttonA : String = ""
     var buttonB : String = ""

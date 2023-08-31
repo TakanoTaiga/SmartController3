@@ -14,8 +14,7 @@ struct SystemInfo: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(.brown)
-                .opacity(0.1)
+                .foregroundStyle(.quaternary)
             
             HStack {
                 Spacer()

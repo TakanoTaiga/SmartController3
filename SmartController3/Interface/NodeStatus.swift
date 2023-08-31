@@ -9,48 +9,48 @@ import SwiftUI
 
 struct NodeStatus: View {
     @ObservedObject var nodeConnectionClassObject : NodeConnection
-    @ObservedObject var gameControllerClass : GameControllerClass
     @State var timer : Timer!
+    @State private var degree: Int = 0
     var body: some View {
-        ZStack{
-            RoundedRectangle(cornerRadius: 20)
-                .foregroundColor(.brown)
-                .opacity(0.1)
-            
-            if(nodeConnectionClassObject.nodeConnectionParameter.state == ServiceState.failed){
-                HStack {
-                    Image(systemName: "circle.fill")
-                        .foregroundColor(.yellow)
-                        .font(.caption)
-                    Text("ノードを検索中")
-                    Spacer()
-                }
-                .padding(.all)
-                .onAppear(){
-                    timer?.invalidate()
-                }
-                .onDisappear(){
-                    gameControllerClass.NWSetup(host: nodeConnectionClassObject.nodeConnectionParameter.nodeIP)
-                    timer?.invalidate()
-                    timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true){ _ in
-                        gameControllerClass.sendGameControllerStatus()
+        if(nodeConnectionClassObject.state == robot_state.failed){
+            HStack {
+                Image(systemName: "arrow.triangle.2.circlepath")
+                    .foregroundStyle(.secondary)
+                    .rotationEffect(Angle(degrees: Double(degree)))
+                    .font(.caption)
+                    .animation(.linear(duration: 2).repeatForever(autoreverses: false) , value: degree)
+                    .onAppear {
+                        self.degree = 360
                     }
+                Text("Search Node")
+                    .foregroundStyle(.secondary)
+                Spacer()
+            }
+            .onAppear(){
+                timer?.invalidate()
+            }
+            .onDisappear(){
+                timer?.invalidate()
+                timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true){ _ in
+                    nodeConnectionClassObject.sendGameControllerStatus()
+                }
+            }
+            
+        }else{
+            HStack {
+                Image(systemName: "personalhotspot")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    
+                if(nodeConnectionClassObject.name != ""){
+                    Text(nodeConnectionClassObject.name + ".local")
+                        .foregroundStyle(.secondary)
+                }else{
+                    Text("接続中")
+                        .foregroundStyle(.secondary)
                 }
                 
-            }else{
-                HStack {
-                    Image(systemName: "circle.fill")
-                        .foregroundColor(.green)
-                        .font(.caption)
-                    if(nodeConnectionClassObject.nodeInfomation.hostName != ""){
-                        Text(nodeConnectionClassObject.nodeInfomation.hostName + ".local")
-                    }else{
-                        Text("接続中")
-                    }
-                    
-                    Spacer()
-                }
-                .padding(.all)
+                Spacer()
             }
         }
     }
