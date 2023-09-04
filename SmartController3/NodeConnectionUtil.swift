@@ -58,13 +58,3 @@ func convertBoolToData(_ bool: Bool) -> Data? {
     var toByteItem = bool
     return Data(bytes: &toByteItem, count: MemoryLayout<Bool>.size)
 }
-
-
- // --old
-
-
-struct GamepadResponseData{
-    var header : UInt8 = 0
-    var gamepadData = GamepadValue()
-    var smartUIData = SmartUIValue()
-}
