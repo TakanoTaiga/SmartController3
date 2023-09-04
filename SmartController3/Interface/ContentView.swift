@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var nodeConnectionClassObject = NodeConnection()
     
-    @State private var flag = true
+//    @State private var flag = false
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue.opacity(0.2), .green.opacity(0.3)]), startPoint: .top, endPoint: .bottom)
@@ -29,18 +29,11 @@ struct ContentView: View {
                             .frame(height: 200)
                             .padding(.bottom)
                         
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 20)
-                                .foregroundStyle(.quaternary)
-                            VStack {
-                                Toggle(!flag ? "50" : "", isOn: $flag)
-                                    .padding(.all)
-                                Spacer()
-                            }
-                        }
-                            .frame(height: !flag ? 50 : 200)
+
+                        SlowMode(nodeConnectionClass: nodeConnectionClassObject)
+                            .frame(height: 50)
                             .padding(.bottom)
-                            .animation(.easeInOut, value: flag)
+                        
                     }
                 }
                 .padding([.leading, .bottom, .trailing])

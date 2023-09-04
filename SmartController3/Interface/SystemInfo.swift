@@ -23,7 +23,7 @@ struct SystemInfo: View {
                         ForEach(NodeConnectionClassObject.consoleOut.indices.reversed(), id: \.self) { index in
                             HStack {
                                 Spacer()
-                                Text(">>\(NodeConnectionClassObject.consoleOut[index])")
+                                Text("\(NodeConnectionClassObject.consoleOut[index])")
                                     .id(index)
                                 .rotationEffect(Angle(degrees: 180))
                             }
