@@ -11,7 +11,6 @@
 		302DBC0829B8D7A700238246 /* GamepadServiceUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */; };
 		302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC1C29BB680100238246 /* NodeStatus.swift */; };
 		DF68EC0B2AA2FFD400150404 /* SlowMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF68EC0A2AA2FFD400150404 /* SlowMode.swift */; };
-		DF68EC0D2AA30ADF00150404 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF68EC0C2AA30ADF00150404 /* Settings.swift */; };
 		DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */; };
 		DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */; };
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
@@ -31,7 +30,6 @@
 		302DBC0729B8D7A700238246 /* GamepadServiceUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamepadServiceUtil.swift; sourceTree = "<group>"; };
 		302DBC1C29BB680100238246 /* NodeStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStatus.swift; sourceTree = "<group>"; };
 		DF68EC0A2AA2FFD400150404 /* SlowMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowMode.swift; sourceTree = "<group>"; };
-		DF68EC0C2AA30ADF00150404 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormat.swift; sourceTree = "<group>"; };
 		DF781ADE2A90B6A40018CCA5 /* SmartController3.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = SmartController3.entitlements; path = SmartController3/SmartController3.entitlements; sourceTree = "<group>"; };
 		DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uint8ToString.swift; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 				FB8D25B9285DB2C5000F0F35 /* SystemInfo.swift */,
 				302DBC1C29BB680100238246 /* NodeStatus.swift */,
 				DF68EC0A2AA2FFD400150404 /* SlowMode.swift */,
-				DF68EC0C2AA30ADF00150404 /* Settings.swift */,
 			);
 			path = Interface;
 			sourceTree = "<group>";
@@ -220,7 +217,6 @@
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
 				DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */,
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
-				DF68EC0D2AA30ADF00150404 /* Settings.swift in Sources */,
 				DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
 				FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */,
@@ -360,12 +356,13 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.7.2;
+				CURRENT_PROJECT_VERSION = 2023.9.5;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartController3/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Smart Controller";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Multicast uses the local network to connect with other devices around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -377,7 +374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -396,12 +393,13 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.7.2;
+				CURRENT_PROJECT_VERSION = 2023.9.5;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SmartController3/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Smart Controller";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Multicast uses the local network to connect with other devices around you.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -413,7 +411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

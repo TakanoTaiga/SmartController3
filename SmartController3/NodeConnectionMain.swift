@@ -15,13 +15,15 @@ class NodeConnection : ObservableObject{
     @Published private (set) public var consoleOut : [String] = ["System Start"]
     @Published private (set) public var gamepadValue = GamepadValue()
     @Published private (set) public var info = GamepadInfoValue()
-    @Published var smartUIValue = SmartUIValue()
     
     private var scaler: Float = 1.0
     
     private var app_talker : NWConnection?
     private var listener = try! NWListener(using: .udp, on: 64202)
     private let queue = DispatchQueue(label: "UDPQueue" , qos: .userInteractive , attributes: .concurrent)
+    
+    private var node_info_clear_timer : Timer!
+    private var node_info_clear_flag = false
     
     
     public func send_data(item: Data){
@@ -113,6 +115,8 @@ class NodeConnection : ObservableObject{
         
         let item = Data([0xCC,0])
         self.send_data(item: item)
+        
+        node_info_clear_flag = true
     }
     
     private func didConnectControllerHandler(_ notification: Notification){
@@ -216,7 +220,7 @@ class NodeConnection : ObservableObject{
     init(){
         self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.queue)
-            newConnection.receive(minimumIncompleteLength: 1, maximumLength: 100, completion: {(data,context,flag,error) in
+            newConnection.receive(minimumIncompleteLength: 1, maximumLength: 256, completion: {(data,context,flag,error) in
                 if let data = data{
                     DispatchQueue.main.async{
                         let header_id = data[0]
@@ -237,5 +241,15 @@ class NodeConnection : ObservableObject{
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil, using: didConnectControllerHandler)
         NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil, using: didDisconnectController)
         GCController.startWirelessControllerDiscovery{}
+        
+        node_info_clear_timer?.invalidate()
+        node_info_clear_timer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true){ _ in
+            if self.node_info_clear_flag {
+                self.node_info_clear_flag = false
+                return
+            }
+            self.name = ""
+            self.state = robot_state.failed
+        }
     }
 }

@@ -59,16 +59,3 @@ struct GamepadValue{
     var leftShoulderButton = false
     var rightShoulderButton = false
 }
-
-// support end
-struct SmartUILabel{
-    var buttonA : String = ""
-    var buttonB : String = ""
-    var slider : String = ""
-}
-
-struct SmartUIValue{
-    var buttonA : Bool = false
-    var buttonB : Bool = false
-    var slider : Float = 0
-}

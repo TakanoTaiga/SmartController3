@@ -11,7 +11,6 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var nodeConnectionClassObject = NodeConnection()
     
-//    @State private var flag = false
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [.blue.opacity(0.2), .green.opacity(0.3)]), startPoint: .top, endPoint: .bottom)
@@ -29,7 +28,6 @@ struct ContentView: View {
                             .frame(height: 200)
                             .padding(.bottom)
                         
-
                         SlowMode(nodeConnectionClass: nodeConnectionClassObject)
                             .frame(height: 50)
                             .padding(.bottom)

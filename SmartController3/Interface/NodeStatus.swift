@@ -12,7 +12,7 @@ struct NodeStatus: View {
     @State var timer : Timer!
     @State private var degree: Int = 0
     var body: some View {
-        if(nodeConnectionClassObject.state == robot_state.failed){
+        ZStack{
             HStack {
                 Image(systemName: "arrow.triangle.2.circlepath")
                     .foregroundStyle(.secondary)
@@ -25,7 +25,7 @@ struct NodeStatus: View {
                 Text("Search Node")
                     .foregroundStyle(.secondary)
                 Spacer()
-            }
+            } //HStack
             .onAppear(){
                 timer?.invalidate()
             }
@@ -35,8 +35,8 @@ struct NodeStatus: View {
                     nodeConnectionClassObject.sendGameControllerStatus()
                 }
             }
+            .opacity(nodeConnectionClassObject.state == robot_state.failed ? 1.0 : 0.0)
             
-        }else{
             HStack {
                 Image(systemName: "personalhotspot")
                     .font(.caption)
@@ -51,7 +51,9 @@ struct NodeStatus: View {
                 }
                 
                 Spacer()
-            }
-        }
-    }
-}
+            } //HStack
+            .opacity(nodeConnectionClassObject.state == robot_state.failed ? 0.0 : 1.0)
+        } //ZStack
+        .animation(.easeInOut(duration: 0.5), value: nodeConnectionClassObject.state)
+    } //var body: some View
+} //struct NodeStatus: View
