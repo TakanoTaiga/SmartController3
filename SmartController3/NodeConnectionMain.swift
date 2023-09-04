@@ -17,6 +17,8 @@ class NodeConnection : ObservableObject{
     @Published private (set) public var info = GamepadInfoValue()
     @Published var smartUIValue = SmartUIValue()
     
+    private var scaler: Float = 1.0
+    
     private var app_talker : NWConnection?
     private var listener = try! NWListener(using: .udp, on: 64202)
     private let queue = DispatchQueue(label: "UDPQueue" , qos: .userInteractive , attributes: .concurrent)
@@ -35,10 +37,20 @@ class NodeConnection : ObservableObject{
         })
     }
     
+    public func enable_slow_mode(){
+        scaler = 0.5
+        self.nc_info("slow_mode" , "enabled")
+    }
+    
+    public func disable_slow_mode(){
+        scaler = 1.0
+        self.nc_info("slow_mode" , "disabled")
+    }
+    
     
     private func nc_info(_ header: String , _ data: String , only_nslog: Bool = false){
         let log = "[\(header)]: \(data)"
-         NSLog(log)
+        NSLog(log)
         
         if only_nslog {return}
         
@@ -163,12 +175,12 @@ class NodeConnection : ObservableObject{
         let header = Data([0x80])
         var sendData = connectionKey + header 
         
-        sendData += convertFloat32ToData(gamepadValue.leftJoystic.x)!
-        sendData += convertFloat32ToData(gamepadValue.leftJoystic.y)!
+        sendData += convertFloat32ToData(gamepadValue.leftJoystic.x * scaler)!
+        sendData += convertFloat32ToData(gamepadValue.leftJoystic.y * scaler)!
         sendData += convertBoolToData(gamepadValue.leftJoystic.thumbstickButton)!
         
-        sendData += convertFloat32ToData(gamepadValue.rightJoystic.x)!
-        sendData += convertFloat32ToData(gamepadValue.rightJoystic.y)!
+        sendData += convertFloat32ToData(gamepadValue.rightJoystic.x * scaler)!
+        sendData += convertFloat32ToData(gamepadValue.rightJoystic.y * scaler)!
         sendData += convertBoolToData(gamepadValue.rightJoystic.thumbstickButton)!
         
         sendData += convertFloat32ToData(gamepadValue.leftTrigger.value)!
