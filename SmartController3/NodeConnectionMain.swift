@@ -175,6 +175,8 @@ class NodeConnection : ObservableObject{
     
     public func sendGameControllerStatus(){
         if(app_talker?.state != .ready){return}
+        if(!info.connected){return}
+        
         
         let connectionKey = Data([0xCD])
         let header = Data([0x80])
@@ -250,7 +252,7 @@ class NodeConnection : ObservableObject{
                 return
             }
             self.name = ""
-            self.state = robot_state.failed
+            self.state = robot_state.ping_wait
         }
     }
 }
