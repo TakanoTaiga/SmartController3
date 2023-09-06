@@ -10,6 +10,7 @@ import SwiftUI
 
 enum robot_state{
     case ready
+    case ping_wait
     case failed
 }
 
