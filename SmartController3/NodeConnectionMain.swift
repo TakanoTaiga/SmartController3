@@ -117,6 +117,7 @@ class NodeConnection : ObservableObject{
         self.send_data(item: item)
         
         node_info_clear_flag = true
+        self.state = robot_state.ready
     }
     
     private func didConnectControllerHandler(_ notification: Notification){

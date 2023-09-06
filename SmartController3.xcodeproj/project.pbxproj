@@ -356,7 +356,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.9.5;
+				CURRENT_PROJECT_VERSION = 2023.9.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
@@ -374,7 +374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -393,7 +393,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.9.5;
+				CURRENT_PROJECT_VERSION = 2023.9.6;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
@@ -411,7 +411,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.0;
+				MARKETING_VERSION = 4.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
