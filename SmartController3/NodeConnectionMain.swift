@@ -15,6 +15,7 @@ class NodeConnection : ObservableObject{
     @Published private (set) public var consoleOut : [String] = ["System Start"]
     @Published private (set) public var gamepadValue = GamepadValue()
     @Published private (set) public var info = GamepadInfoValue()
+    @Published private (set) public var slowModeStatus = false
     
     private var scaler: Float = 1.0
     
@@ -41,11 +42,13 @@ class NodeConnection : ObservableObject{
     
     public func enable_slow_mode(){
         scaler = 0.5
+        slowModeStatus = true
         self.nc_info("slow_mode" , "enabled")
     }
     
     public func disable_slow_mode(){
         scaler = 1.0
+        slowModeStatus = false
         self.nc_info("slow_mode" , "disabled")
     }
     

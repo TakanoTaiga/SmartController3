@@ -13,11 +13,11 @@ struct SlowMode: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 20)
-                .foregroundStyle(!isTap ? .quaternary : .primary)
-                .foregroundColor(!isTap ? .gray : .red)
-            Text(!isTap ? "Slow Mode OFF" : "Slow Mode ON")
-                .opacity(!isTap ? 0.5 : 1.0)
-                .foregroundColor(!isTap ? .black : .white)
+                .foregroundStyle(!nodeConnectionClass.slowModeStatus ? .quaternary : .primary)
+                .foregroundColor(!nodeConnectionClass.slowModeStatus ? .gray : .red)
+            Text(!nodeConnectionClass.slowModeStatus ? "Slow Mode OFF" : "Slow Mode ON")
+                .opacity(!nodeConnectionClass.slowModeStatus ? 0.5 : 1.0)
+                .foregroundColor(!nodeConnectionClass.slowModeStatus ? .black : .white)
                 
         }
         .onTapGesture {
