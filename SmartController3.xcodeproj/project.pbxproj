@@ -12,7 +12,7 @@
 		302DBC1D29BB680100238246 /* NodeStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302DBC1C29BB680100238246 /* NodeStatus.swift */; };
 		DF68EC0B2AA2FFD400150404 /* SlowMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF68EC0A2AA2FFD400150404 /* SlowMode.swift */; };
 		DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */; };
-		DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */; };
+		DF9346682AAC039E00A39605 /* TriggerSlider in Frameworks */ = {isa = PBXBuildFile; productRef = DF9346672AAC039E00A39605 /* TriggerSlider */; };
 		FB787E8B28AE7E1E0058F548 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = FB787E8A28AE7E1E0058F548 /* icons */; };
 		FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */; };
 		FB8D25A8285D94BC000F0F35 /* SmartController3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB8D25A7285D94BC000F0F35 /* SmartController3App.swift */; };
@@ -32,7 +32,6 @@
 		DF68EC0A2AA2FFD400150404 /* SlowMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowMode.swift; sourceTree = "<group>"; };
 		DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataFormat.swift; sourceTree = "<group>"; };
 		DF781ADE2A90B6A40018CCA5 /* SmartController3.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = SmartController3.entitlements; path = SmartController3/SmartController3.entitlements; sourceTree = "<group>"; };
-		DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uint8ToString.swift; sourceTree = "<group>"; };
 		FB787E8A28AE7E1E0058F548 /* icons */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icons; sourceTree = SOURCE_ROOT; };
 		FB7BEA0B28D5B6010054BCBB /* EmergencyCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyCall.swift; sourceTree = "<group>"; };
 		FB8D25A4285D94BC000F0F35 /* SmartController3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartController3.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF9346682AAC039E00A39605 /* TriggerSlider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,7 +64,6 @@
 				FB8D25BD285EAFB3000F0F35 /* NodeConnectionMain.swift */,
 				302DBC0529B8D29B00238246 /* NodeConnectionUtil.swift */,
 				DF74CEDD2A50518B004AF2D2 /* DataFormat.swift */,
-				DF8DFCF42A7DDA390057F6D7 /* uint8ToString.swift */,
 			);
 			name = NodeConnection;
 			sourceTree = "<group>";
@@ -155,6 +154,9 @@
 			dependencies = (
 			);
 			name = SmartController3;
+			packageProductDependencies = (
+				DF9346672AAC039E00A39605 /* TriggerSlider */,
+			);
 			productName = SmartController3;
 			productReference = FB8D25A4285D94BC000F0F35 /* SmartController3.app */;
 			productType = "com.apple.product-type.application";
@@ -186,6 +188,9 @@
 				Base,
 			);
 			mainGroup = FB8D259B285D94BC000F0F35;
+			packageReferences = (
+				DF9346662AAC039D00A39605 /* XCRemoteSwiftPackageReference "TriggerSlider" */,
+			);
 			productRefGroup = FB8D25A5285D94BC000F0F35 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -217,7 +222,6 @@
 				FB8D25AA285D94BC000F0F35 /* ContentView.swift in Sources */,
 				DF74CEDE2A50518B004AF2D2 /* DataFormat.swift in Sources */,
 				FB7BEA0C28D5B6010054BCBB /* EmergencyCall.swift in Sources */,
-				DF8DFCF52A7DDA390057F6D7 /* uint8ToString.swift in Sources */,
 				FB8D25BC285DEABE000F0F35 /* ControllerInfomationWidget.swift in Sources */,
 				FB8D25B6285D9502000F0F35 /* GamepadServiceMain.swift in Sources */,
 				DF68EC0B2AA2FFD400150404 /* SlowMode.swift in Sources */,
@@ -356,7 +360,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.9.6;
+				CURRENT_PROJECT_VERSION = 2023.9.9;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
@@ -374,7 +378,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -393,7 +397,7 @@
 				CODE_SIGN_ENTITLEMENTS = SmartController3/SmartController3.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2023.9.6;
+				CURRENT_PROJECT_VERSION = 2023.9.9;
 				DEVELOPMENT_ASSET_PATHS = "\"SmartController3/Preview Content\"";
 				DEVELOPMENT_TEAM = V9J6H8S566;
 				ENABLE_PREVIEWS = YES;
@@ -411,7 +415,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.smart.controller.x;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -443,6 +447,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DF9346662AAC039D00A39605 /* XCRemoteSwiftPackageReference "TriggerSlider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DominikButz/TriggerSlider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DF9346672AAC039E00A39605 /* TriggerSlider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DF9346662AAC039D00A39605 /* XCRemoteSwiftPackageReference "TriggerSlider" */;
+			productName = TriggerSlider;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FB8D259C285D94BC000F0F35 /* Project object */;
 }

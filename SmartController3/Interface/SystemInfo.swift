@@ -25,7 +25,7 @@ struct SystemInfo: View {
                                 Spacer()
                                 Text("\(NodeConnectionClassObject.consoleOut[index])")
                                     .id(index)
-                                .rotationEffect(Angle(degrees: 180))
+                                    .rotationEffect(Angle(degrees: 180))
                             }
                         }
                     }

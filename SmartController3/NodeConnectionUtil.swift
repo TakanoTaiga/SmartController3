@@ -59,3 +59,10 @@ func convertBoolToData(_ bool: Bool) -> Data? {
     var toByteItem = bool
     return Data(bytes: &toByteItem, count: MemoryLayout<Bool>.size)
 }
+
+func uint8ToString(char: UInt8) -> String {
+    if (32...126).contains(char) {
+        return String(Character(UnicodeScalar(char)))
+    }
+    return ""
+}
