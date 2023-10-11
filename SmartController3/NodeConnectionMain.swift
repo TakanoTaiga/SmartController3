@@ -17,11 +17,16 @@ class NodeConnection : ObservableObject{
     @Published private (set) public var info = GamepadInfoValue()
     @Published private (set) public var slowModeStatus = false
     
+    public var slow_mode_value : Float = 0.5
+    public var comID : UInt8 = 128
+    public var rcvID : [UInt8] = [0,0,0]
+    public var mrm : Bool = false
+    
     private var scaler: Float = 1.0
     
     private var app_talker : NWConnection?
     private var listener = try! NWListener(using: .udp, on: 64202)
-    private let queue = DispatchQueue(label: "UDPQueue" , qos: .userInteractive , attributes: .concurrent)
+    private let queue = DispatchQueue(label: "UDPQueue" , qos: .background , attributes: .concurrent)
     
     private var node_info_clear_timer : Timer!
     private var node_info_clear_flag = false
@@ -41,17 +46,62 @@ class NodeConnection : ObservableObject{
     }
     
     public func enable_slow_mode(){
-        scaler = 0.5
+        scaler = slow_mode_value
         slowModeStatus = true
         self.nc_info("slow_mode" , "enabled")
     }
-    
+
     public func disable_slow_mode(){
         scaler = 1.0
         slowModeStatus = false
         self.nc_info("slow_mode" , "disabled")
     }
     
+    public func sendGameControllerStatus(){
+        if(app_talker?.state != .ready){return}
+        if(!info.connected){return}
+        
+        
+        let connectionKey = Data([0xCD])
+        let header = self.mrm ? Data([0x12]) : Data([0x80])
+        var sendData = connectionKey + header
+        
+        sendData += convertFloat32ToData(gamepadValue.leftJoystic.x * scaler)!
+        sendData += convertFloat32ToData(gamepadValue.leftJoystic.y * scaler)!
+        sendData += convertBoolToData(gamepadValue.leftJoystic.thumbstickButton)!
+        
+        sendData += convertFloat32ToData(gamepadValue.rightJoystic.x * scaler)!
+        sendData += convertFloat32ToData(gamepadValue.rightJoystic.y * scaler)!
+        sendData += convertBoolToData(gamepadValue.rightJoystic.thumbstickButton)!
+        
+        sendData += convertFloat32ToData(gamepadValue.leftTrigger.value)!
+        sendData += convertBoolToData(gamepadValue.leftTrigger.button)!
+        
+        sendData += convertFloat32ToData(gamepadValue.rightTrigger.value)!
+        sendData += convertBoolToData(gamepadValue.rightTrigger.button)!
+        
+        sendData += convertBoolToData(gamepadValue.dpad.up)!
+        sendData += convertBoolToData(gamepadValue.dpad.down)!
+        sendData += convertBoolToData(gamepadValue.dpad.left)!
+        sendData += convertBoolToData(gamepadValue.dpad.right)!
+        
+        sendData += convertBoolToData(gamepadValue.button.x)!
+        sendData += convertBoolToData(gamepadValue.button.y)!
+        sendData += convertBoolToData(gamepadValue.button.a)!
+        sendData += convertBoolToData(gamepadValue.button.b)!
+        
+        sendData += convertBoolToData(gamepadValue.leftShoulderButton)!
+        sendData += convertBoolToData(gamepadValue.rightShoulderButton)!
+        
+        
+        self.app_talker!.send(content: sendData, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
+            if (NWError != nil) {
+                DispatchQueue.main.async{
+                    self.nc_info("sendGameControllerStatus" , "\(NWError!)")
+                }
+            }
+        })))
+    }
     
     private func nc_info(_ header: String , _ data: String , only_nslog: Bool = false){
         let log = "[\(header)]: \(data)"
@@ -176,53 +226,6 @@ class NodeConnection : ObservableObject{
         self.sendGameControllerStatus()
     }
     
-    public func sendGameControllerStatus(){
-        if(app_talker?.state != .ready){return}
-        if(!info.connected){return}
-        
-        
-        let connectionKey = Data([0xCD])
-        let header = Data([0x80])
-        var sendData = connectionKey + header 
-        
-        sendData += convertFloat32ToData(gamepadValue.leftJoystic.x * scaler)!
-        sendData += convertFloat32ToData(gamepadValue.leftJoystic.y * scaler)!
-        sendData += convertBoolToData(gamepadValue.leftJoystic.thumbstickButton)!
-        
-        sendData += convertFloat32ToData(gamepadValue.rightJoystic.x * scaler)!
-        sendData += convertFloat32ToData(gamepadValue.rightJoystic.y * scaler)!
-        sendData += convertBoolToData(gamepadValue.rightJoystic.thumbstickButton)!
-        
-        sendData += convertFloat32ToData(gamepadValue.leftTrigger.value)!
-        sendData += convertBoolToData(gamepadValue.leftTrigger.button)!
-        
-        sendData += convertFloat32ToData(gamepadValue.rightTrigger.value)!
-        sendData += convertBoolToData(gamepadValue.rightTrigger.button)!
-        
-        sendData += convertBoolToData(gamepadValue.dpad.up)!
-        sendData += convertBoolToData(gamepadValue.dpad.down)!
-        sendData += convertBoolToData(gamepadValue.dpad.left)!
-        sendData += convertBoolToData(gamepadValue.dpad.right)!
-        
-        sendData += convertBoolToData(gamepadValue.button.x)!
-        sendData += convertBoolToData(gamepadValue.button.y)!
-        sendData += convertBoolToData(gamepadValue.button.a)!
-        sendData += convertBoolToData(gamepadValue.button.b)!
-        
-        sendData += convertBoolToData(gamepadValue.leftShoulderButton)!
-        sendData += convertBoolToData(gamepadValue.rightShoulderButton)!
-        
-        
-        self.app_talker!.send(content: sendData, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-            if (NWError != nil) {
-                DispatchQueue.main.async{
-                    self.nc_info("sendGameControllerStatus" , "\(NWError!)")
-                }
-            }
-        })))
-    }
-
-    
     init(){
         self.listener.newConnectionHandler = {(newConnection) in
             newConnection.start(queue: self.queue)
@@ -230,13 +233,24 @@ class NodeConnection : ObservableObject{
                 if let data = data{
                     DispatchQueue.main.async{
                         let header_id = data[0]
+                        let session_id = data[1]
                         
                         self.nc_info("receive" , "\(header_id)")
+                        self.nc_info("session_id" , "\(session_id)")
+                        self.nc_info("comID" , "\(self.comID)")
                         
-                        if(header_id == header_id_list.search_app.rawValue){
-                            self.callback_search_app(packet_data: data)
-                        }else if (header_id == header_id_list.ping_request.rawValue){
-                            self.callback_ping_request(packet_data: data)
+                        if(session_id != self.rcvID[0] && session_id != self.rcvID[1] && session_id != self.rcvID[2]){
+                            self.rcvID[2] = self.rcvID[1]
+                            self.rcvID[1] = self.rcvID[0]
+                            self.rcvID[0] = session_id
+                        }
+                        
+                        if(session_id == self.comID){
+                            if(header_id == header_id_list.search_app.rawValue){
+                                self.callback_search_app(packet_data: data)
+                            }else if (header_id == header_id_list.ping_request.rawValue){
+                                self.callback_ping_request(packet_data: data)
+                            }
                         }
                     }
                 }
