@@ -8,7 +8,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var nodeConnectionClassObject = NodeConnection()
-
+    
     @State private var showSettings = false
     @State private var showSystemInfo = true
     @State private var showSlowMode = false
@@ -17,7 +17,12 @@ struct ContentView: View {
     @State private var showVersion = false
     @State private var pressGear = false
     @State private var needLongPress = false
-
+    
+    @State private var keyborad_open = false
+    
+    @State private var str = ""
+    @State private var id_str = ""
+    
     private let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     private let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
     
@@ -32,39 +37,66 @@ struct ContentView: View {
             showSlowMode = UserDefaults.standard.object(forKey: "showSlowMode") as? Bool ?? false
             showBigSlowMode = UserDefaults.standard.object(forKey: "showBigSlowMode") as? Bool ?? false
             showEnergency = UserDefaults.standard.object(forKey: "showEnergency") as? Bool ?? true
-
+            nodeConnectionClassObject.slow_mode_value = UserDefaults.standard.object(forKey: "slow_mode_value") as? Float ?? 0.5
+            nodeConnectionClassObject.comID = UserDefaults.standard.object(forKey: "comID") as? UInt8 ?? 10
+            
         }
         .onDisappear(){
             UserDefaults.standard.set(showSystemInfo, forKey: "showSystemInfo")
             UserDefaults.standard.set(showSlowMode, forKey: "showSlowMode")
             UserDefaults.standard.set(showBigSlowMode, forKey: "showBigSlowMode")
             UserDefaults.standard.set(showEnergency, forKey: "showEnergency")
-            
+            UserDefaults.standard.set(nodeConnectionClassObject.slow_mode_value, forKey: "slow_mode_value")
+            UserDefaults.standard.set(nodeConnectionClassObject.comID, forKey: "comID")
         }
     }
-
+    
     // MARK: - Private Helpers
     private func baseView() -> some View {
         ZStack {
             backgroundGradient()
             VStack {
                 nodeStatusView()
+                ZStack{
+                    HStack {
+                        Spacer()
+                        Text("ID: \(nodeConnectionClassObject.comID)")
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text("Rcv: \(nodeConnectionClassObject.rcvID[0])")
+                            .foregroundStyle(.secondary)
+                        if(nodeConnectionClassObject.rcvID[1] != 0){
+                            Text("\(nodeConnectionClassObject.rcvID[1])")
+                                .foregroundStyle(.secondary)
+                        }
+                        if(nodeConnectionClassObject.rcvID[2] != 0){
+                            Text("\(nodeConnectionClassObject.rcvID[2])")
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                    }
+                    .animation(.easeIn(duration: 0.2), value: nodeConnectionClassObject.rcvID)
+                }
+                .padding(.all , 0.5)
+                
                 scrollViewContent()
             }
             .onTapGesture {
                 showSettings = false
+                UIApplication.shared.closeKeyboard()
             }
         }
     }
-
+    
     private func backgroundGradient() -> some View {
         LinearGradient(gradient: Gradient(colors: [.blue.opacity(0.2), .green.opacity(0.3)]), startPoint: .top, endPoint: .bottom)
             .ignoresSafeArea()
             .onTapGesture {
                 showSettings = false
+                UIApplication.shared.closeKeyboard()
             }
     }
-
+    
     private func nodeStatusView() -> some View {
         ZStack {
             NodeStatus(nodeConnectionClassObject: nodeConnectionClassObject)
@@ -79,7 +111,7 @@ struct ContentView: View {
             }
         }
     }
-
+    
     private func scrollViewContent() -> some View {
         ScrollView(showsIndicators: false) {
             VStack {
@@ -103,14 +135,15 @@ struct ContentView: View {
                 }
                 
                 if showEnergency {
-                    EmergencyCall()
+                    EmergencyCall(nodeConnectionClass: nodeConnectionClassObject)
                         .frame(height: 150)
                 }
             }
             .padding([.leading, .bottom, .trailing])
+            
         }
     }
-
+    
     private func longPressHint() -> some View {
         Text("長押ししてください")
             .font(.callout)
@@ -118,7 +151,7 @@ struct ContentView: View {
             .opacity(needLongPress ? 1.0 : 0.0)
             .animation(.easeOut(duration: 0.2), value: needLongPress)
     }
-
+    
     private func gearIcon() -> some View {
         Image(systemName: "gear")
             .font(.title3)
@@ -126,7 +159,7 @@ struct ContentView: View {
             .padding(.horizontal)
             .opacity(pressGear ? 0.5 : 1.0)
     }
-
+    
     private func settingsView() -> some View {
         VStack {
             Spacer()
@@ -149,15 +182,68 @@ struct ContentView: View {
                     Toggle("スローモード", isOn: $showSlowMode)
                     Toggle("最大 スローモード", isOn: $showBigSlowMode)
                     Toggle("緊急停止", isOn: $showEnergency)
+                    
+                    HStack {
+                        Text("SlowMode値")
+                        Spacer()
+                        TextField("0 to 1", text: $str)
+                            .keyboardType(.decimalPad)
+                            .font(.headline)
+                            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
+                                keyborad_open = true
+                                str = "\(nodeConnectionClassObject.slow_mode_value)"
+                            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)) { _ in
+                                keyborad_open = false
+                                if let fp = Float(str){
+                                    nodeConnectionClassObject.slow_mode_value = fp
+                                    UserDefaults.standard.set(nodeConnectionClassObject.slow_mode_value, forKey: "slow_mode_value")
+                                }else{
+                                    nodeConnectionClassObject.slow_mode_value = 0.0
+                                    str = "\(nodeConnectionClassObject.slow_mode_value)"
+                                }
+                                
+                            }
+                    }
+                    HStack {
+                        Text("ID")
+                        Spacer()
+                        TextField("id", text: $id_str)
+                            .keyboardType(.decimalPad)
+                            .font(.headline)
+                            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
+                                keyborad_open = true
+                                id_str = "\(nodeConnectionClassObject.comID)"
+                            }.onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)) { _ in
+                                keyborad_open = false
+                                if let ui = UInt8(id_str){
+                                    nodeConnectionClassObject.comID = ui
+                                    UserDefaults.standard.set(nodeConnectionClassObject.comID, forKey: "comID")
+                                }else{
+                                    nodeConnectionClassObject.comID = 0
+                                    id_str = "\(nodeConnectionClassObject.comID)"
+                                }
+                                
+                            }
+                    }
+                    
                     Spacer()
                 }.padding(.all)
             }
-            .frame(height: 300)
-            .offset(y: showSettings ? 100 : 600)
+            .frame(height: 350)
+            .offset(y: showSettings ? 50 : 600)
+            .offset(y: keyborad_open ? -50 : 0)
             .animation(.easeInOut(duration: 0.2), value: showSettings)
+            .onTapGesture {
+                UIApplication.shared.closeKeyboard()
+                keyborad_open = false
+            }
+            .onAppear(){
+                id_str = "\(nodeConnectionClassObject.comID)"
+                str = "\(nodeConnectionClassObject.slow_mode_value)"
+            }
         }
     }
-
+    
     private func longPressIndicator() -> some View {
         VStack {
             Rectangle()
@@ -167,7 +253,7 @@ struct ContentView: View {
             Spacer()
         }
     }
-
+    
     private func longPressGesture() -> some Gesture {
         LongPressGesture(minimumDuration: 0.3)
             .onEnded { _ in
@@ -178,7 +264,7 @@ struct ContentView: View {
                 handleLongPressChange()
             }
     }
-
+    
     private func handleLongPressChange() {
         pressGear = true //for gear animation
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.31) {
@@ -190,9 +276,16 @@ struct ContentView: View {
                 needLongPress = false
             }
         }
-
+        
         if showSettings {
             showSettings = false
+            UIApplication.shared.closeKeyboard()
         }
+    }
+}
+
+extension UIApplication {
+    func closeKeyboard() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }

@@ -12,10 +12,9 @@ import CoreTelephony
 import TriggerSlider
 
 struct EmergencyCall: View {
-    @State private var nwcCallback : NWConnection?
-    @State private var queue = DispatchQueue(label: "EmergencyCall", qos: .background , attributes: .concurrent)
+    @ObservedObject var nodeConnectionClass : NodeConnection
+
     @State private var offset: CGFloat = 0.0
-    
     @State private var emergencyCallStatus = false
     
     var body: some View {
@@ -51,16 +50,13 @@ struct EmergencyCall: View {
                             .overlay(Image(systemName: "arrow.right").font(.system(size: 30)))
                     }, textView: {
                         Text("スライドして緊急停止").foregroundColor(Color.black)
-                    },
-                                  backgroundView: {
+                    },backgroundView: {
                         RoundedRectangle(cornerRadius: 30, style: .continuous)
                             .fill(Color.orange.opacity(0.5))
                     }, offsetX: $offset,
                                   didSlideToEnd: {
                         print("Triggered right direction slider!")
-                        nwcCallback = NWConnection(host: "255.255.255.255", port: 64202, using: .udp)
-                        nwcCallback?.start(queue: self.queue)
-                        send(item: "EMERGENCY")
+                        nodeConnectionClass.mrm = true
                         emergencyCallStatus = true
                     }, settings: TriggerSliderSettings(sliderViewVPadding: 5, slideDirection: .right))
                     .padding(.vertical, 10)
@@ -73,18 +69,8 @@ struct EmergencyCall: View {
         .gesture(LongPressGesture(minimumDuration: 0.3)
             .onEnded { _ in
                 emergencyCallStatus = false
+                nodeConnectionClass.mrm = false
                 offset = 0
             })
-    }
-    
-    func send(item : String){
-        let payload = item.data(using: .utf8)!
-        nwcCallback!.send(content: payload, completion: NWConnection.SendCompletion.contentProcessed(({ (NWError) in
-            if (NWError == nil) {
-                NSLog("ROSC:Send:Data was sent to UDP")
-            } else {
-                NSLog("ROSC:Send:NWError:\(NWError!)")
-            }
-        })))
     }
 }
